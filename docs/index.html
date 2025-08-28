@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="hu-HU" xml:lang="hu-HU"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.7.33">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -40,7 +40,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-364982630eef5352dd1537128a8ed5cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -243,7 +243,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Közzétéve</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2025. június 16.</p>
+      <p class="date">2025. augusztus 28.</p>
     </div>
   </div>
   
@@ -260,7 +260,7 @@ ul.task-list li input[type="checkbox"] {
 <h1 class="unnumbered">Előszó</h1><p><img src="Rlogo.png" title="Bevezetés az R nyelv és statisztikai számítási környezet használatába" class="quarto-cover-image nolightbox img-fluid" alt="R logó"></p>
 <p>Az R egy ingyenes, nyílt forráskódú, rendkívüli tudású és folyamatosan fejlődő programozási nyelv illetve statisztikai számítási környezet, mely kiválóan alkalmas a legkülönfélébb statisztikai és adattudományi feladatok megoldására.</p>
 <p>Az R egyik fontos jellemzője, hogy lényegében minden feladat elvégzéshez egy szkriptet kell írnunk – szemben más statisztikai programokkal<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, ahol csak egy grafikus felületen kell kattintgatnunk. Ez elsőre ijesztőnek hangozhat, és csakugyan igaz, hogy más programokhoz képest a tanulási görbe meredekebben indul, hiszen a kattintgatással szemben itt már két szám átlagolásához is programot kell írni. A dolog azonban kifizetődő: lehet, hogy egyszerű dolgokat más statisztikai környezetekben könnyebb végrehajtani, itt meg bonyolultabb, de cserében itt a bonyolultabbakat sem sokkal nehezebb, míg más statisztikai programokban az, vagy egyenesen lehetetlen. Kicsit is komolyabb elemzések, kutatások végzésekor az R megtanulásába befektettt munka hamar – és pláne: busásan – megtérül.</p>
-<p>A fentiekből már érthető, hogy ahhoz, hogy el tudjunk kezdeni statisztikai elemzéseket végezni R-ben, először az R-rel mint programozási nyelvvel kell megismerkedni. Nagyon fontos hangsúlyozni, hogy ez a jegyzet kizárólag az R <em>nyelvi</em> kérdéseivel és programozásával foglalkozik, az R <em>statisztikai</em> célokra történő felhasználása egy másik jegyzetem (<a href="https://tamas-ferenci.github.io/FerenciTamas_BevezetesABiostatisztikaba/">Ferenci Tamás: Bevezetés a biostatisztikába</a>) témája.</p>
+<p>A fentiekből már érthető, hogy ahhoz, hogy el tudjunk kezdeni statisztikai elemzéseket végezni R-ben, először az R-rel mint programozási nyelvvel kell megismerkedni. Nagyon fontos hangsúlyozni, hogy ez a jegyzet kizárólag az R <em>nyelvi</em> kérdéseivel és programozásával foglalkozik, az R <em>statisztikai</em> célokra történő felhasználása egy másik jegyzetem (<a href="https://ferenci-tamas.github.io/biostatisztika/">Ferenci Tamás: Bevezetés a biostatisztikába</a>) témája.</p>
 <p>Az R talán legnagyobb erejét a hozzá megírt, megszámlálhatatlan sok<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> kiegészítő csomag adja, amikkel jószerével minden elképzelhető (és számos nehezen elképzelhető…) statisztikai feladat, adott esetben rendkívül bonyolultak is megoldhatóak, sokszor mindössze egy-egy függvényhívással. Számos kitűnő, jól dokumentált kiegészítő csomag érhető el (melyek maguk is ingyenesek és nyílt forráskódúak); nagyon tipikus, hogy a vadonatúj statisztikai módszereket is R-ben implementálják első közlésükkor. Az R csomagok központi repozitóriuma <a href="https://cran.r-project.org/">CRAN</a> (Comprehensive R Archive Network).</p>
 <p>Mindezek alapja az R mögött álló, rendkívül széles és erős nemzetközi közösség. Ingyenes programként bárki számára elérhető, nyílt forráskódú programként pedig jól bővíthető, illetve ez sokaknak a tudományra vonatkozó általános filozófiájával – „open science”, nyílt tudomány – is találkozik (így az enyémmel is). Számos statisztikus fejleszt R alá csomagokat, általában nagyon segítőkészek mind az esetleges hibák javításában, mind az új funkciók megvalósítására vonatkozóan. Több fórum érhető el (pl. a <a href="https://stackoverflow.com/">Stackoverflow</a>), ahol a kezdőszintű egyszerű problémáktól a legspeciálisabb nehézségekig mindenben segítséget lehet kérni (és nem ritka, hogy a legnevesebb R fejlesztők válaszolnak!). Nagyon sok csomag jelen van a <a href="https://github.com/">Github</a>-on is, ami szintén kiváló platform az eszmecserére.</p>
 <p>Az R különösen erős az eredmények kommunikálásban. Kiegészítő csomagokkal könnyedén lehetséges ún. dinamikus dokumentumok készítése, melyek együtt tartalmazzák a kódokat, és a kapcsolódó leírást.</p>

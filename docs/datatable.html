@@ -285,12 +285,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span></code><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Ebben a fejezetben a magyar <a href="https://github.com/tamas-ferenci/RakregiszterVizualizator">Nemzeti Rákregiszter adatait</a> fogjuk példa adatbázisnak használni.</p>
+<p>Ebben a fejezetben a magyar <a href="https://github.com/ferenci-tamas/RakregiszterVizualizator">Nemzeti Rákregiszter adatait</a> fogjuk példa adatbázisnak használni.</p>
 <p>Elsőként töltsük be a következő fájlt, ami eleve <code>data.table</code> formátumban tartalmazza az adatokat:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">file.exists</span>(<span class="st">"RawDataLongWPop.rds"</span>))</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">download.file</span>(<span class="fu">paste0</span>(</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://github.com/tamas-ferenci/RakregiszterVizualizator/"</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://github.com/ferenci-tamas/RakregiszterVizualizator/"</span>,</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"raw/refs/heads/master/RawDataLongWPop.rds"</span>),</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"RawDataLongWPop.rds"</span>)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>

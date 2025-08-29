@@ -16,14 +16,14 @@ A gyakorlati szemléltetésekhez töltsük be a könyvtárat (a `data.table` nem
 library(data.table)
 ```
 
-Ebben a fejezetben a magyar [Nemzeti Rákregiszter adatait](https://github.com/tamas-ferenci/RakregiszterVizualizator) fogjuk példa adatbázisnak használni.
+Ebben a fejezetben a magyar [Nemzeti Rákregiszter adatait](https://github.com/ferenci-tamas/RakregiszterVizualizator) fogjuk példa adatbázisnak használni.
 
 Elsőként töltsük be a következő fájlt, ami eleve `data.table` formátumban tartalmazza az adatokat:
 
 ```{r}
 if(!file.exists("RawDataLongWPop.rds"))
   download.file(paste0(
-    "https://github.com/tamas-ferenci/RakregiszterVizualizator/",
+    "https://github.com/ferenci-tamas/RakregiszterVizualizator/",
     "raw/refs/heads/master/RawDataLongWPop.rds"),
     "RawDataLongWPop.rds")
 

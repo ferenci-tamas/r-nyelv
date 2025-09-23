@@ -8,44 +8,77 @@ data(birthwt, package = "MASS")
 
 ## Függvényhívások
 
-Függvény úgy hívható, hogy megadjuk a nevét, majd utána zárójelben az argumentumát, vagy argumentumait (lehet, hogy egy sincs, de a zárójelet ekkor is ki kell írni):
+Függvény úgy hívható, hogy megadjuk a nevét, majd utána gömbölyű zárójelben az argumentumát, vagy argumentumait:
 
 ```{r}
-quantile( birthwt$bwt )
+rnorm(10)
 ```
 
-Függvényről súgó a kérdőjellel kapható (két kérdőjel az összes ismert függvényt végigkeresi, akár névtöredékre is): `?quantile`.
+Elképzelhető, hogy egy függvénynek egy argumentuma sincs, de a zárójelet ekkor is ki kell írni (azonnal becsukva, értelemszerűen). Ez fontos, ugyanis zárójel nélkül beírva a függvény nevét az R kiírja a tartalmát:
 
-Aminél egyenlőségjellel adva van érték a specifikációban, ott az default-ként viselkedik, nem kötelező megadni, viszont a default-tal nem rendelkezőket muszáj:
+```{r}
+rnorm
+```
+
+Függvényről súgó a kérdőjellel kapható: `?rnorm`. Ez a megoldás akkor használható, ha a függvény pontos nevét tudjuk, mert azt kell a kérdőjel után írni, ha nem tudjuk a pontos nevet, csak a név egy töredékét, akkor a két kérdőjel (`??rno`) használható; ez végigkeresi az összes súgó-oldalt a beírt töredék után, és listát ad róluk^[Ez a helyi gépen keres, ebből fakadóan természetesen csak azokat a csomagokat tudja végigkeresni, amik telepítve vannak helyileg. Létezik három kérdőjeles változat (`???rno`) is, ami az R központi weboldalán keres, így -- többek között -- valamennyi csomagot végignézi, függetlenül attól, hogy helyileg telepítve van-e. Ez azonban egy külön csomag, az `sos` telepítését igényli (a három kérdőjel ugyanis igazából nem más, mint egy hozzárendelt rövidítés, ún. alias az `sos::findFn` függvényhez, ami ilyen keresést hajt végre).].
+
+Ami nekünk most különösen fontos a súgóban, az a függvény ún. specifikációja. Az `rnorm` esetén ez a következőképp néz ki:
+
+`rnorm(n, mean = 0, sd = 1)`
+
+Ebben a következő elemek láthatóak:
+
+- A függvény neve, esetünkben az `rnorm`. Utána, ahogy már volt róla szó, gömbölyű zárójelben következnek az argumentumok.
+- Szintén volt róla szó, hogy az argumentumok száma tetszőleges lehet, a nullát is beleértve; jelen esetben a függvénynek három argumentuma van.
+- Minden argumentumnak van egy neve, kötelező is, hogy legyen. Ez esetben az első argumentum neve `n`, a másodiké `mean`, a harmadiké `sd`.
+- Egy argumentumnak lehet, de nem kötelező, hogy legyen ún. alapértelmezett értéke; ha van, akkor egyenlőségjel után szerepel az argumentum neve után. Esetünkben az `n` nevű argumentumnak nincs alapértelmezett értéke, a `mean`-nek és az `sd`-nek van, az előbbinek 0, az utóbbinak 1.
+
+Természetesen nagyon fontos, és a súgó többi részéből ez ki is derül, hogy egyáltalán mit csinál a függvény, mire jó, mi a tartalma az egyes argumentumoknak, mi a visszatérési értéke, de mi most fókuszáljunk a szintaktikára.
+
+Kezdjük ott, hogy ha egy argumentumnak van alapértelmezett értéke, akkor azt az argumentumot nem kötelező megadni a hívás során, viszont aminek nincs, azt kötelező. Ezért van az, hogy az `rnorm(10)` lefut, noha csak egy argumentumot adtunk meg (mert a másik kettőnek van alapértelmezett értéke), viszont ha az `n`-et nem adjuk meg, akkor hibát ad a függvényhívás:
+
 ```{r, error=TRUE}
-quantile()
+rnorm()
 ```
 
-Ha több argumentumot adunk meg, akkor azok a felsorolás sorrendjében osztódnak ki:
+Az alapértelmezett értékkel rendelkező argumentumokat tehát nem kötelező megadni, de természetesen lehet:
+
 ```{r}
-quantile( birthwt$bwt, 0.23 )
-quantile( birthwt$bwt, c( 0.23, 0.5, 0.6 ) )
+rnorm(n = 10, mean = 70, sd = 15)
 ```
 
-Argumentumra hivatkozhatunk névvel is, ez esetben nem kell a felsorolás sorrendjével törődnünk:
+Mint látható, argumentumot úgy adunk meg a hívás során, hogy beírjuk a nevét, egyenlőségjelet teszünk^[Az értékadásnál említettem, hogy a nyíl helyett szinte felcserélhetően használhatnánk egyenlőségjelet is, és hozzátettem, hogy az R-es szokás az, hogy az egyenlőségjelet másra használjuk. Akkor most már elárulhatom: erre! A szokás az, hogy az értékadásnál nyilat írunk, függvény argumentumának megadásakor egyenlőségjelet. A kettő között a különbség [minimális](https://stackoverflow.com/a/1742550/3915051).], majd utána leírjuk az értékét. Ami fontos, hogy a nevek elhagyhatóak, ez esetben az R abban a sorrendben rendeli hozzá a beírt értékeket az argumentumokhoz, amilyen sorrendben a specifikációban szerepelnek. Vagyis a fenti hívás egyenértékű ezzel:
+
 ```{r}
-quantile( birthwt$bwt, c( 0.23, 0.5, 0.6 ), type = 6 )
-quantile( probs = c( 0.23, 0.5, 0.6 ), type = 6, x = birthwt$bwt )
+rnorm(10, 70, 15)
 ```
 
-Az általános gyakorlat az, hogy az első két-három argumentumot adhatjuk meg név nélkül (ezeknél elvárható, hogy fejből is tudja az ember, hogy mit jelent), de a többinél elegánsabb, ha mindenképp adunk nevet (tehát akkor is, ha sorrendben írjuk).
+Ezt voltaképp már korábban is láttuk: az `rnorm(10)` ezért működött minden név megadása nélkül is.
 
-Egy függvény hívásánál az argumentumai elkülöníthetőek egy listába, majd ugyanaz a hatása a `do.call` használatával elérhető (első argumentum a függvény, második az átadandó argumentumok listája):
+A nevek megadása lehetővé teszi, hogy más sorrendben soroljunk fel argumentumokat, mint a specifikációban szerepelnek:
+
 ```{r}
-quantile( probs = c( 0.23, 0.5, 0.6 ), type = 6, x = birthwt$bwt )
-do.call( quantile, list( probs = c( 0.23, 0.5, 0.6 ), type = 6, x = birthwt$bwt ) )
+rnorm(sd = 15, n = 10, mean = 70)
 ```
 
-Ez akkor jön jól, ha nem tudjuk előre, hogy mik az argumentumok (akár azt sem, hogy hány darab van belőlük!), pl. mert egy `lapply`-jal gyártottuk le, lásd később:
+Vagy, hogy átugorjunk egy argumentumot:
+
 ```{r}
-rbind( c( 1, 2 ), c( 3, 4 ), c( 5, 6 ) )
-do.call( rbind, lapply( birthwt, function( x ) c( mean( x ), median( x ) ) ) )
+rnorm(10, sd = 15)
 ```
+
+Az R-es gyakorlat az, hogy az első néhány, mondjuk 3-4 argumentumtól eltekintve *akkor is* írjuk ki a neveket, ha egyébként sorrendben adtuk meg őket a hívás során. Ennek nem a kód futtathatóságához, hanem az olvashatóságához van köze: átlagos R-hez értő embertől elvárható, hogy -- különösen a gyakran használt függvényeknél -- az első néhány argumentumról tudja, hogy mi a jelentésük, de a továbbiakról már nem feltétlenül, így az olvasónak segítség, ha ezeknél feltüntetjük a nevet, még akkor is, ha az R-nek nem kellene, mert sorrendben jönnek. Ez azért van így, mert ezek általában beszélő nevek (ez az `rnorm` példáján is jól látszik!); ha majd mi magunk definiálunk függvényt, akkor is törekedjünk rá emiatt, hogy mi is ilyen beszélő neveket adjunk.
+
+Egy utolsó dolgot kell még a fentiek kapcsán megbeszélnünk. Az eddigi leírásból úgy tűnhet, hogy a függvényeknek mindig adott, rögzített, előre ismert számú argumentumuk van -- annyi, amennyit a specifikációban felsoroltunk. Az eddigi példákban ez valóban így volt, de gondoljunk bele, mi a helyzet mondjuk a `c`-vel? (Eddig nem mondtam, de természetesen ez is egy függvény!) Hogyan lehetséges, hogy működik a `c(1, 2)` és a `c(1, 2, 3)` is? A válasz az, hogy az R megenged egy speciális argumentumot, a három pontot^[Angolul a neve ellipsis; semmi köze az ellipszishez, egyszerűen arról van szó, hogy angolul, mármint a nyelvészetben, így hívják a -- tipikusan mondat végi -- három pontot.]: a `c` függvény specifikációja úgy néz ki, hogy `c(...)`. A három pont azt jelenti: tetszőleges számú argumentum. Ilyen esetben tehát azt mondjuk, hogy mi magunk sem tudjuk, hogy hány argumentumot kapunk, minden teljesen azon múlik, hogy a felhasználó hogyan hívja meg a függvényt -- ami szerepel a meghívásban, az fog átkerülni a `...` alatt, legyen az 0 argumentum, 1, vagy 100. A felhasználó megteheti, hogy a `...` helyén 0 argumentumot ír be a függvény meghívásakor, megteheti, hogy 1-et, megteheti, hogy 100-at. (Ha majd saját függvény írunk: ilyenkor a függvényen belül szintén `...` névvel hivatkozhatunk arra, hogy mit kaptunk a hívás során. Annyit kell tudni erről, hogy ez egy elég speciális elem, első lépésben szinte mindig listává alakítjuk: `list(...)` már egy szokásos lista lesz, amit innentől a hagyományos módon, megszokott listaként használhatunk.) A `...`-ban átadott argumentumoknak lehet neve, de ez nem kötelező. A `...` vegyíthető a "szokásos" argumentumokkal: egy függvénynek nézhet úgy ki a specifikációja, hogy `f(x, ..., y = 1, z = 2)`. Ez azt jelenti, hogy az első egy kötelező argumentum, `x` névvel, utána jön tetszőleges, és előre nem ismert számú argumentum (akár 0 is): hogy itt mit kap a függvény, az teljesen azon múlik, hogy a felhasználó hogyan hívja meg. Ezután egy `y` nevű argumentum következik 1 alapértelmezett értékkel, végül egy `z` nevű 2 alapértelmezett értékkel. Ennek megfelelően az `f(1)` esetén az `x` értéke 1 lesz, a `list(...)` egy üres lista, `y` pedig 1 , míg `z` értéke 2. Az `f(1, z = 10)` annyiban tér el ettől, hogy `z` értéke 10 lesz. Végezetül az `f(1, 2, a = 3, 4, z = 10)` hívásnál `x` értéke 1 lesz, a `list(...)` egy háromelemű lista lesz 2, 3 és 4 értékekkel (amiből a középsőnek `a` a neve, a másik kettőnek nincs neve), `y` értéke 1, `z` értéke 10. (Mint látható, ilyenkor, ha `y`-nak vagy `z`-nek szeretnénk beállítani az értékét, akkor kötelező megadni a nevét a hívásban, különben az R azt hinné, hogy a megadott argumentum a `...` része.)
+
+Zárásként még egy apróság: bizonyos esetekben felmerül a kérdés, hogy mi a teendő akkor, ha úgy kell egy függvényt meghívnunk, hogy mi magunk sem tudjuk előre (tehát a programkód írásakor) az argumentumait, például mert egy másik függvény állítja elő. Ilyenkor célszerű ezeket egy listába helyezni, az R ugyanis kínál egy megoldási lehetőséget erre:
+
+```{r}
+fuggvenyargs <- list(n = 10, mean = 70, sd = 15)
+do.call(rnorm, fuggvenyargs)
+```
+
+A `do.call` tehát meghívja az első argumentumban megadott függvényt a második argumentumban megadott argumentumokkal. A `do.call` lényegében elválasztja egymástól a függvény nevét és argumentumait (ami az `rnorm(sd = 15, n = 10, mean = 70)` típusú hívásnál össze van gubancolódva); ezzel megoldást adva a fentiekben említett helyzetre is. Ha a függvény argumentumai között `...` van, a `do.call` akkor is működik, vagyis az átadott lista hossza nem kötelező, hogy mindig ugyanaz legyen.
 
 ## Saját függény definiálása
 

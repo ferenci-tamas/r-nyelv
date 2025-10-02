@@ -4,21 +4,49 @@ Az R programozásának megértéséhez szükséges egyik alapelemünk a változ�
 
 ## Értékadás
 
-Változó értéket az értékadás művelettel kap; ez kb. a ,,legyen egyenlő'' módon olvasható ki. Az értékedás jele az R-ben a `<-`. (A más programnyelveken megszokottabb `=`-t ne használjuk értékadásra, mert bár működne, de az R-es hagyományok szerint ezt egy másik helyzetre tartjuk fent, amit később látni is fogunk). A nyíl bal oldalára kerül a változó, a jobb oldalára az érték, amit adni akarunk neki. Elvileg használható a `->` is értékadásra, ilyenkor értelemszerűen fordul a helyzet, de ezt ritkán szokták alkalmazni.
-
-Íme egy értékadás:
+Változó értéket az értékadás művelettel kap; ez kb. a "legyen egyenlő" módon olvasható ki. Az értékedás jele az R-ben a `<-`. (A más programnyelveken megszokottabb `=`-t ne használjuk értékadásra, mert bár működne, de az R-es hagyományok szerint ezt egy másik helyzetre tartjuk fent, ezt majd később látni is fogjuk.) A nyíl bal oldalára kerül a változó, a jobb oldalára az érték, amit adni akarunk neki, például (a második sorban a változónév megadása egyszerűen kiíratja az értékét, csak hogy lássuk mi történt; hogy miért jelent kiíratást a változónév megadása, arra később még visszatérünk):
 
 ```{r}
-a <- 1
+testtomeg <- 72
+testtomeg
 ```
 
-Ami szembeötlik (pláne, ha valakinek más, szigorúbb programnyelvből van háttere): ez az utasítás gond nélkül lefut, miközben sehol nem deklaráltuk, hogy az `a` legyen egy változó, pláne nem adtuk meg, hogy milyen típusú adatot akarunk benne tárolni! Az R ,,intelligensen'' kitalált mindent: mivel látja, hogy korábban `a` nevű változó még nem létezett, ezért egyetlen szó nélkül, automatikusan létrehozza, illetve abból, hogy mit adtunk neki értékül, azt is meghatározta, hogy milyen legyen a típusa, jelen esetben szám. Majd természetesen az értékét is beállítja arra, amit megadtunk. Már létező változónak történő értékadásnál az előző érték elveszlik, és felülíródik az aktuálisan megadottal.
+Már létező változónak történő értékadásnál az előző érték elveszlik, és felülíródik az aktuálisan megadottal:
 
-Ez egy példa az R egy meglehetősen általános filozófiájára, amire később még sok további példát fogunk látni: hogy az R ,,megengedi trehányságot'' és igyekszik kitalálni, hogy mit akarhattunk. Bár ez első ránézésre rendkívül kényelmesnek hangzik, fontos hangsúlyozni, hogy ez egy kétélű fegyver! Egyfelől ugyanis valóban nagyon kényelmes, jelen esetben, hogy nem kell törődnünk a változók előzetes deklarálásával, típusuk megadásával, de másrészt így kiesik egy védővonal, ami megóvhatna minket a saját hibáinktól -- hiszen a deklaráció rákényszerít(ett volna) minket arra, hogy jobban végiggondoljuk a változókkal kapcsolatos kérdéseket. Így viszont könnyebben előfordulhat, hogy olyat csinálunk, amit igazából nem szeretnénk, ráadásul úgy, hogy észre sem vesszük! Elírjuk a változó nevét, és nem figyelmeztetést kapunk, hogy de hát ilyen változó nem létezik, hanem egyetlen hang nélkül létrejön egy új, hibás nevű (miközben az igazi értéke marad változatlan). Egy eredetileg szám típusú változónak értékül adunk egy szöveget, és ez egyetlen hang nélkül lefut, lecserélve a változó típusát.
+```{r}
+testtomeg <- 62
+testtomeg
+```
+
+Furcsa lehet ez a nyíl jel az értékadás jelölésére, de "didaktikailag" nagyon jó: szépen mutatja, szinte vizuálisan is, hogy a 72 "bemegy" a `testtomeg` változóba. (Elvileg használható a `->` is értékadásra, ilyenkor értelemszerűen fordul a helyzet, de ezt ritkán szokták alkalmazni.)
+
+Ami szembeötlik: ez az utasítás gond nélkül lefut, miközben sehol nem deklaráltuk, hogy a `testtomeg` legyen egy változó, pláne nem adtuk meg, hogy milyen típusú adatot akarunk benne tárolni! Furcsa lehet józan ésszel is, hiszen logikus lenne, hogy előbb valamilyen módon "létre kell hoznunk" egy változót, mielőtt egyáltalán bármit el tudunk tárolni benne. Hogyhogy nem kellett előbb megadni, hogy szeretnénk egy ilyen változót, például azért, hogy az R le tudja foglalni a helyét a memóriában? Azt is várhatnánk, hogy meg kell adni a típusát, tehát, hogy milyen jellegű adatot akarunk benne tárolni (számot, szöveget, dátumot, kis számot, nagy számot stb.), hiszen logikus lenne a feltételezés, hogy ettől függ, hogy mit kell az R-nek tennie, például mennyi memóriát kell foglalnia, tehát okkal várhatnánk, hogy ezt is meg kell adni. De nem! Más programnyelvekben valóban lehet ez a helyzet, de itt nem.
+
+Az R "intelligensen" kitalált mindent: mivel látja, hogy korábban `testtomeg` nevű változó még nem létezett, ezért egyetlen szó nélkül, automatikusan létrehozza, illetve abból, hogy mit adtunk neki értékül, azt is kitalálta, hogy milyen legyen a típusa, jelen esetben szám. Majd természetesen az értékét is beállítja arra, amit megadtunk; ez a szigorúan vett értékadás.
+
+Az "intelligensen" szót nem véletlenül tettem idézőjelbe. Ez egy példa az R egy meglehetősen általános filozófiájára, amire később még sok további példát fogunk látni: az R "megengedi trehányságot" és igyekszik kitalálni, hogy mit akarhattunk. Bár ez első ránézésre rendkívül kényelmesnek hangzik, fontos hangsúlyozni, hogy ez egy kétélű fegyver! Egyfelől ugyanis valóban nagyon kényelmes, jelen esetben, hogy nem kell törődnünk a változók előzetes deklarálásával, típusuk megadásával, de másrészt így kiesik egy védővonal, ami megóvhatna minket a saját hibáinktól -- hiszen a deklaráció rákényszerít(ett volna) minket arra, hogy jobban végiggondoljuk a változókkal kapcsolatos kérdéseket. Így viszont könnyebben előfordulhat, hogy olyat csinálunk, amit igazából nem szeretnénk, ráadásul úgy, hogy észre sem vesszük!
+
+Például, azt írjuk később a kódban, hogy:
+
+```{r}
+testomeg <- 82
+```
+
+Mi fog történni? Semmi! Pontosabban szólva, valami nagyon is fog történni, létrejön egy *másik* változó, miközben maga az utasítás egyetlen hang, hiba, figyelmeztetes, minden nélkül lefut! Ha kellett volna előzetesen deklarálni a változókat, akkor ilyen nem fordulhatna elő, hiszen a gép azonnal szólna, hogy `testomeg` nevű változót nem deklaráltunk.
+
+Vagy egy másik példa. Később azt írjuk (a "később" jelentheti azt, hogy három nappal, és ezer sorral lejjebb, és persze a változó neve sem biztos, hogy ennyire egyértelmű segítséget jelent!), hogy:
+
+```{r}
+testtomeg <- "András"
+```
+
+Mi történik? Megint csak: semmi, az utasítás egyetlen hang, hiba, figyelmeztetés, minden nélkül lefut, és szó nélkül átállítja a változó típusát, hogy be tudja állítani `"András"` értékre. Ha kellett volna deklarálni a változó típusát is, az kényelmetlenebb lett volna, igen, de segítene elkerülni az ilyen hibákat, hiszen a gép azonnal szólna, hogy a `testtomeg` változó típusa szám, úgyhogy abba nem rakhatunk bele egy szöveget.
+
+Amint mondtam, a "megengedi a trehányságot", ez a kétélű fegyver (kényelmesebb, gyorsabb, de veszélyesebb, kevesebb a hiba elleni védelmi vonal) meglehetősen általános filozófia az R-ben, de ennek a konkrét viselkedésnek külön neve van a programozás-elméletben. Azt mondják, hogy egy programnyelv statikus típusrendszerű, ha a változókat előzetesen deklarálni kell, megadva a típusukat. Ez plusz feladat, de cserében a gép meg tud minket védeni a fentihez hasonló hibáktól. Az R azonban dinamikus típusrendszerű, vagyis a típust nem kell előre megadni^[Ez nem feltétlenül jelenti azt, hogy a programnyelv semmilyen ellenőrzést nem végez a tekintetben, hogy a típusokat helyesen kezeljük-e. Szoktak beszélni erősen és gyengén típusos nyelvekről a szerint, hogy mennyire szigorú ellenőrzéseket végez a programnyelv, de ezeket a fogalmakat nagyon sokféleképp definiálták, és nem egyértelmű, hogy mit jelentenek. Ha valaki azt mondja, hogy az R gyengén típusos, akkor valószínűleg arra gondol, hogy nagyon megengedőn és könnyedén konvertál különböző típusokat, implicite is, tehát ha nem mi írjuk konkrétan elő a konverziót -- ezt később részletesen is fogjuk látni.], és akár, mint láttuk, menet közben is változtatható. Ez sok szempontból egyszerűbb és flexibilisebb, de kinyitja az ajtót a fentihez hasonló hibákhoz.
 
 R-ben a változónév karakterekből, számokból, a `.` és a `_` jelekből állhat, de nem kezdődhet számmal vagy `_` jellel, és ha `.` jellel kezdődik, akkor utána nem jöhet szám. (Bizonyos, úgynevezett foglalt szavakat, amiket az R nyelv használ, nem választhatunk változónévnek. Ezekből nagyon kevés van, így annyiban óvatosnak kell lenni, hogy az R egy sor szokásos függvényét simán felüldefiniálhatjunk, ha létrehozunk olyan nevű változót.) Érdekes módon az, hogy az R mit ért karakter alatt, függhet az adott számítógép beállításaitól, de a legbiztosabb, ha a standard latin betűs (ASCII) karaktereket használjuk csak. (Azaz: lehetőleg ne használjunk ékezetes betűt változónévként. Elvileg el lehet vele boldogulni -- adott esetben speciális szimbólummal jelölve, hogy az egy változónév -- de nem éri meg a vesződséget, csomagokban kiszámíthatatlan gondokat okozhat.)
 
-Egy fontos általános szabály, hogy ha egy utasításban értékadás van, akkor az eltárolás a ,,háttérben'' történik meg, a konzolra nem íródik ki semmi. (Természetesen vannak kivételek, olyan számítások, amik mellékhatásként mindenképp kiírnak valamit a konzolra.) Értékadás nélküli utasítás futtatásánál viszont épp fordított a helyzet: az eredmény kiíratódik a konzolra, de nem tárolódik el sehol. Ha egy értékadást gömbölyű zárójelekbe ágyazunk (`(a <- 1)`), akkor el is tárolódik és ki is íratódik az eredmény; a gyakorlatban ritkán használjuk.
+Egy fontos általános szabály, hogy ha egy utasításban értékadás van, akkor az eltárolás a "háttérben" történik meg, a konzolra nem íródik ki semmi. (Természetesen vannak kivételek, olyan számítások, amik mellékhatásként mindenképp kiírnak valamit a konzolra.) Értékadás nélküli utasítás futtatásánál viszont épp fordított a helyzet: az eredmény kiíratódik a konzolra, de nem tárolódik el sehol. Ha egy értékadást gömbölyű zárójelekbe ágyazunk (`(a <- 1)`), akkor el is tárolódik és ki is íratódik az eredmény; a gyakorlatban ritkán használjuk.
 
 (Egy apró jótanács. Mi van akkor, ha lefuttatunk egy rendkívül hosszú utasítást, de véletlenül elfelejtjük benyilazni egy változóba... azaz az eredmény megjelenik a konzolon, viszont nem tárolódott le! Most futtathatjuk az egészet újra?! Szerencsére nem: az R valójában nyíl nélkül is eltárolja egy speciális változóban az eredményt, a neve `.Last.value`. Ha tehát ilyen történik, akkor ne essünk kétségbe, ezt speciális változót adjuk értékül a változónknak. De vigyázzunk, ilyen módon mindig csak a legutóbbi utasítás eredménye érhető el.)
 
@@ -134,11 +162,11 @@ as.numeric("2.4" )
 as.numeric(logikai)
 ```
 
-A sémát már a fentiek is mutatják: a konvertálásnál egy ,,erősorrend'', jelesül character < double = integer < logical, amely irányban mindig lehet konvertálni (a `T` 1-re, a `F` 0-ra alakul, a többi értelemszerű). A sorrenddel ellentétesen is elképzelhető, hogy lehet konvertálni, de ez már nem biztos, azon múlik, hogy értelmesen végrehajtható-e (a `"kiskutya"` nem konvertálható számmá, az `"1"` igen). Sok függvény automatikusan konvertál, például ha egy logikai igaz értékhez hozzáadunk 1-et, akkor 2-t kapunk, mert a háttérben, szó nélkül, át fogja konvertálni számmá.
+A sémát már a fentiek is mutatják: a konvertálásnál egy "erősorrend", jelesül character < double = integer < logical, amely irányban mindig lehet konvertálni (a `T` 1-re, a `F` 0-ra alakul, a többi értelemszerű). A sorrenddel ellentétesen is elképzelhető, hogy lehet konvertálni, de ez már nem biztos, azon múlik, hogy értelmesen végrehajtható-e (a `"kiskutya"` nem konvertálható számmá, az `"1"` igen). Sok függvény automatikusan konvertál, például ha egy logikai igaz értékhez hozzáadunk 1-et, akkor 2-t kapunk, mert a háttérben, szó nélkül, át fogja konvertálni számmá.
 
-A sikertelen konverziók `NA`-t adnak, amely az R-ben lényegében a ,,hiányzó érték'' jele. 
+A sikertelen konverziók `NA`-t adnak, amely az R-ben lényegében a "hiányzó érték" jele. 
 
-Speciális szerepe van még a `NULL`-nak (ez inkább olyasmit jelöl, hogy ,,üres objektum''), illetve az `NaN`-nek (not-a-number, tipikusan olyan adja, mint például ha negatív szám logaritmusát vesszük).
+Speciális szerepe van még a `NULL`-nak (ez inkább olyasmit jelöl, hogy "üres objektum"), illetve az `NaN`-nek (not-a-number, tipikusan olyan adja, mint például ha negatív szám logaritmusát vesszük).
 
 ## Adatszerkezetek és indexelés
 
@@ -146,7 +174,7 @@ Most, hogy ismerjük az adattípusokat, azzal kell folytatnunk, hogy ezekből mi
 
 ### Vektor
 
-A vektor homogén, egydimenziós adatszerkezet. Egydimenziós, mert egy ,,kiterjedése'' van, egy indexszel hivatkozhatunk az elemeire, és homogén, mert minden benne lévő adat ugyanolyan típusú kell legyen. Szemben a ,,vektor'' matematikai fogalmával, nem kötelező, hogy ezek számok legyenek, de mindenképp ugyanolyannak kell lennie a típusuknak.
+A vektor homogén, egydimenziós adatszerkezet. Egydimenziós, mert egy "kiterjedése" van, egy indexszel hivatkozhatunk az elemeire, és homogén, mert minden benne lévő adat ugyanolyan típusú kell legyen. Szemben a "vektor" matematikai fogalmával, nem kötelező, hogy ezek számok legyenek, de mindenképp ugyanolyannak kell lennie a típusuknak.
 
 Vektor legegyszerűbb módon az elemei felsorolásával hozható létre, ehhez a `c` függvény használható:
 
@@ -171,7 +199,7 @@ Arra a speciális esetre, hogy 1-esével lépkedünk, olyan sűrűn van szüksé
 
 A sorok elején lévő, szögletes zárójelbe írt számok nem részei a vektornak, az az olvashatóságot segíti: ha nagyon hosszú vektorban kell egy adott elem pozícióját megtalálni, akkor nem a legelejétől kell számolni, elég a sor elejétől menni.
 
-Feltűnhet, hogy a korábbi `szam` kiíratás esetén is megjelent egy `[1]` a sor elején. Ez nem véletlen: a valóságban ,,skalár'' nincs az R-ben, igazából a `szam` is egy vektor (csak épp egy elemből áll).
+Feltűnhet, hogy a korábbi `szam` kiíratás esetén is megjelent egy `[1]` a sor elején. Ez nem véletlen: a valóságban "skalár" nincs az R-ben, igazából a `szam` is egy vektor (csak épp egy elemből áll).
 
 Ahogy volt róla szó, nem csak numerikus adatokból képezhető vektor, hanem bármilyenből:
 
@@ -180,7 +208,7 @@ karaktervektor <- c("a", "b", "xyz")
 karaktervektor
 ```
 
-A vektor homogén, ezért az alábbi utasítások csak és kizárólag azért futnak le mégis, mert a háttérben ilyenkor az R a ,,leggyengébbre'' konvertálja az összeset (hogy kikényszerítse a homogenitást):
+A vektor homogén, ezért az alábbi utasítások csak és kizárólag azért futnak le mégis, mert a háttérben ilyenkor az R a "leggyengébbre" konvertálja az összeset (hogy kikényszerítse a homogenitást):
 
 ```{r}
 c(1, "a")
@@ -216,7 +244,7 @@ Megtehetjük azt is, hogy nem egy számot, hanem egy vektort adunk át, ekkor a 
 szamvektor[c(1, 3)]
 ```
 
-(Ugye látjuk, hogy ez a kettő igazából ugyanaz? Az előbbi példa is vektorral indexeltm hiszen ,,egy szám'' nincsen, az is vektor.)
+(Ugye látjuk, hogy ez a kettő igazából ugyanaz? Az előbbi példa is vektorral indexeltm hiszen "egy szám" nincsen, az is vektor.)
 
 Egy elem kiválasztható többször is, illetve tetszőleges sorrendben:
 ```{r}
@@ -240,7 +268,7 @@ Valójában azonban ez is működik, hiába rövidebb az indexelő vektor:
 szamvektor[c(TRUE, TRUE, FALSE)]
 ```
 
-Ez egy újabb példa a kétélű flexibilitásra: azért fog működni, mert ilyenkor az R ,,reciklálja'' az indexelő vektort.
+Ez egy újabb példa a kétélű flexibilitásra: azért fog működni, mert ilyenkor az R "reciklálja" az indexelő vektort.
 
 
 

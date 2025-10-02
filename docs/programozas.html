@@ -240,14 +240,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Tartalomjegyzék</h2>
-   
-  <ul>
-  <li><a href="#funkcionális-programozás" id="toc-funkcionális-programozás" class="nav-link active" data-scroll-target="#funkcionális-programozás"><span class="header-section-number">4.1</span> Funkcionális programozás</a></li>
-  </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/ferenci-tamas/r-nyelv/edit/main/programozas.qmd" class="toc-action"><i class="bi bi-github"></i>Az oldal szerkesztése</a></li><li><a href="https://github.com/ferenci-tamas/r-nyelv/blob/main/programozas.qmd" class="toc-action"><i class="bi empty"></i>Forráskód megtekintése</a></li><li><a href="https://github.com/ferenci-tamas/r-nyelv/issues/new" class="toc-action"><i class="bi empty"></i>Észrevétel jelzése</a></li></ul></div></nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -275,182 +269,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(birthwt, <span class="at">package =</span> <span class="st">"MASS"</span>)</span></code><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="funkcionális-programozás" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="funkcionális-programozás"><span class="header-section-number">4.1</span> Funkcionális programozás</h2>
-<p>Az R, bár többféle paradigmában is tud dolgozni, érezhető funkcionális nyelv. Ezt elegáns is, célszerű is kihasználni!</p>
-<p>Egy példa:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>( birthwt<span class="sc">$</span>bwt[ <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span> ] )</span></code><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 3130.16</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>elsoszazatlag <span class="ot">&lt;-</span> <span class="cf">function</span>( data ) {</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">mean</span>( data[ <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span> ] )</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>( result )</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>elsoszazatlag <span class="ot">&lt;-</span> <span class="cf">function</span>( data ) {</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  result <span class="ot">&lt;-</span> <span class="fu">mean</span>( data[ <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span> ] )</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  result</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>elsoszazatlag <span class="ot">&lt;-</span> <span class="cf">function</span>( data ) {</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>( data[ <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span> ] )</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">elsoszazatlag</span>( birthwt<span class="sc">$</span>bwt )</span></code><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 3130.16</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>( birthwt<span class="sc">$</span>bwt[ <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span> ] )</span></code><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 323.7243</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>elsoszazf <span class="ot">&lt;-</span> <span class="cf">function</span>( data, <span class="at">f =</span> mean ) {</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">f</span>( data[ <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span> ] )</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">elsoszazf</span>( birthwt<span class="sc">$</span>bwt )</span></code><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 3130.16</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">elsoszazf</span>( birthwt<span class="sc">$</span>bwt, <span class="at">f =</span> sd )</span></code><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 323.7243</code></pre>
-</div>
-</div>
-<p>A <code>lapply</code> az első argumentumban megadott lista minden elemére ráereszti a második argumentumban megadott függvényt, és az eredményt összefűzi egy listává (a <code>sapply</code> csak annyiban tér el, hogy lista helyett vektort ad vissza, ha lehetséges a listát vektorrá konvertálni):</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>( <span class="fu">c</span>( <span class="st">"age"</span>, <span class="st">"lwt"</span>, <span class="st">"bwt"</span> ), nchar )</span></code><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[[1]]
-[1] 3
-
-[[2]]
-[1] 3
-
-[[3]]
-[1] 3</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>( <span class="fu">c</span>( <span class="st">"age"</span>, <span class="st">"lwt"</span>, <span class="st">"bwt"</span> ), nchar )</span></code><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>age lwt bwt 
-  3   3   3 </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>( <span class="fu">c</span>( <span class="st">"age"</span>, <span class="st">"lwt"</span>, <span class="st">"bwt"</span> ), <span class="cf">function</span>( x ) <span class="fu">nchar</span>( x ) )</span></code><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[[1]]
-[1] 3
-
-[[2]]
-[1] 3
-
-[[3]]
-[1] 3</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>( <span class="fu">c</span>( <span class="st">"age"</span>, <span class="st">"lwt"</span>, <span class="st">"bwt"</span> ), <span class="cf">function</span>( x ) <span class="fu">mean</span>( birthwt[[ x ]] ) )</span></code><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[[1]]
-[1] 23.2381
-
-[[2]]
-[1] 129.8148
-
-[[3]]
-[1] 2944.587</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>( <span class="fu">c</span>( <span class="st">"age"</span>, <span class="st">"lwt"</span>, <span class="st">"bwt"</span> ), <span class="cf">function</span>( x ) <span class="fu">mean</span>( birthwt[[ x ]] ) )</span></code><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>      age       lwt       bwt 
-  23.2381  129.8148 2944.5873 </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>( birthwt, mean )</span></code><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>         low          age          lwt         race        smoke          ptl 
-3.121693e-01 2.323810e+01 1.298148e+02 1.846561e+00 3.915344e-01 1.957672e-01 
-          ht           ui          ftv          bwt 
-6.349206e-02 1.481481e-01 7.936508e-01 2.944587e+03 </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>( birthwt, <span class="cf">function</span>( x ) <span class="fu">c</span>( <span class="fu">mean</span>( x ), <span class="fu">median</span>( x ) ) )</span></code><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>$low
-[1] 0.3121693 0.0000000
-
-$age
-[1] 23.2381 23.0000
-
-$lwt
-[1] 129.8148 121.0000
-
-$race
-[1] 1.846561 1.000000
-
-$smoke
-[1] 0.3915344 0.0000000
-
-$ptl
-[1] 0.1957672 0.0000000
-
-$ht
-[1] 0.06349206 0.00000000
-
-$ui
-[1] 0.1481481 0.0000000
-
-$ftv
-[1] 0.7936508 0.0000000
-
-$bwt
-[1] 2944.587 2977.000</code></pre>
-</div>
-</div>
-<p>A harmadik sor példát mutat arra, hogy anonim függvény is használható, az utolsó előtti pedig arra, hogy a data.frame igazából lista, aminek az elemei az oszlopai.</p>
-<p>Az <code>apply</code> az első argumentumban megadott mátrix vagy adatkeret minden sorára vagy oszlopára (ezt a második argumentum dönti el) ráereszti a harmadik argumentumban megadott függvényt:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>( birthwt, <span class="dv">2</span>, mean )</span></code><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>         low          age          lwt         race        smoke          ptl 
-3.121693e-01 2.323810e+01 1.298148e+02 1.846561e+00 3.915344e-01 1.957672e-01 
-          ht           ui          ftv          bwt 
-6.349206e-02 1.481481e-01 7.936508e-01 2.944587e+03 </code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>( birthwt, <span class="dv">1</span>, <span class="cf">function</span>( x ) x[ <span class="dv">1</span> ] )</span></code><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> 85  86  87  88  89  91  92  93  94  95  96  97  98  99 100 101 102 103 104 105 
-  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
-106 107 108 109 111 112 113 114 115 116 117 118 119 120 121 123 124 125 126 127 
-  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
-128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 
-  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
-148 149 150 151 154 155 156 159 160 161 162 163 164 166 167 168 169 170 172 173 
-  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
-174 175 176 177 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 195 
-  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
-196 197 199 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 
-  0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0 
-217 218 219 220 221 222 223 224 225 226   4  10  11  13  15  16  17  18  19  20 
-  0   0   0   0   0   0   0   0   0   0   1   1   1   1   1   1   1   1   1   1 
- 22  23  24  25  26  27  28  29  30  31  32  33  34  35  36  37  40  42  43  44 
-  1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1 
- 45  46  47  49  50  51  52  54  56  57  59  60  61  62  63  65  67  68  69  71 
-  1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1 
- 75  76  77  78  79  81  82  83  84 
-  1   1   1   1   1   1   1   1   1 </code></pre>
-</div>
-</div>
-<p>A <code>tapply</code> az első argumentumban megadott változó második argumentum szerint képezett csoportjaira ráereszti a harmadik argumentumban megadott függvényt:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>( birthwt<span class="sc">$</span>bwt[ birthwt<span class="sc">$</span>race<span class="sc">==</span><span class="dv">1</span> ] )</span></code><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 3102.719</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tapply</span>( birthwt<span class="sc">$</span>bwt, birthwt<span class="sc">$</span>race, mean )</span></code><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>       1        2        3 
-3102.719 2719.692 2805.284 </code></pre>
-</div>
-</div>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -865,7 +685,7 @@ $bwt
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ferenci-tamas/r-nyelv/edit/main/programozas.qmd" class="toc-action"><i class="bi bi-github"></i>Az oldal szerkesztése</a></li><li><a href="https://github.com/ferenci-tamas/r-nyelv/blob/main/programozas.qmd" class="toc-action"><i class="bi empty"></i>Forráskód megtekintése</a></li><li><a href="https://github.com/ferenci-tamas/r-nyelv/issues/new" class="toc-action"><i class="bi empty"></i>Észrevétel jelzése</a></li></ul></div></div></div></footer><script type="text/javascript">
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/ferenci-tamas/r-nyelv/edit/main/programozas.qmd" class="toc-action"><i class="bi bi-github"></i>Az oldal szerkesztése</a></li><li><a href="https://github.com/ferenci-tamas/r-nyelv/blob/main/programozas.qmd" class="toc-action"><i class="bi empty"></i>Forráskód megtekintése</a></li><li><a href="https://github.com/ferenci-tamas/r-nyelv/issues/new" class="toc-action"><i class="bi empty"></i>Észrevétel jelzése</a></li></ul></div></div></div></footer><script type="text/javascript">
 var sc_project=12422840; 
 var sc_invisible=1; 
 var sc_security="d32cce24"; 

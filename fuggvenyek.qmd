@@ -5,7 +5,6 @@ Sok esetben előfordul, hogy egy statisztikai programban ismétlődő részek va
 ```{r}
 x <- rnorm(10)
 x
-
 n <- length(x)
 osszeg <- sum(x)
 atlag <- osszeg/n
@@ -80,7 +79,7 @@ Ezen a ponton kettéágaznak a lehetőségek. Még mielőtt belevágunk, elsők�
 rinvexp(10)
 ```
 
-Az első lehetőség, hogy a `::` (két kettőspont, néha szokták magyarul négyespontnak is hívni) operátort használjuk: először leírjuk a csomag nevét, utána négyespontot teszünk, majd a függvény nevét a csomagból. Jelen esetben:
+Az első lehetőség, hogy a `::` (két kettőspont, néha szokták magyarul négyespontnak is hívni) operátort használjuk: először leírjuk a csomag nevét, utána négyespontot teszünk, majd a függvény nevét a csomagból. Ez így már lefut:
 
 ```{r}
 actuar::rinvexp(10)
@@ -88,7 +87,7 @@ actuar::rinvexp(10)
 
 Magyarra lefordítva az `actuar::rinvexp` praktikusan azt jelenti, hogy "az `actuar` csomag `rinvexp` nevű függvénye".
 
-Ez nem szó szerint a csomag betöltése, abban az értelemben, hogy ettől nem válik a csomag összes többi függvénye elérhetővé, csak ez az egy (és ez is csak ekkor, ha később újra szükségünk van erre a függvényre, akkor megint elé kell írni, hogy `actuar::`). A csomag szó szerinti betöltését a `library` függvénnyel^[Ennek van egy alternatívája, a `require` függvény. A kettő nagyon hasonlít egymásra, az egyetlen különbség akkor bukik ki, ha nem telepített könyvtárat akarunk betölteni: ekkor a `library` hibát ad, a `require` csak figyelmeztetést, és visszatérési értékként `FALSE`-ot (sikeres betöltés esetén ezzel szemben `TRUE`-t). Ebből következik, hogy interaktív munkamenetnél -- magyarán, ha kézzel pötyögünk, meg hajtatunk végre kódsorokat -- a `library` tökéletes, viszont ha csomag-betöltést egy futó program maga végzi, akkor a `require` jobb lehet, mert gépi úton tudjuk kezelni a helyzetet, hogy volt-e az adott gépen telepítve a csomag, sikerült-e betölteni, és ennek fényében továbbmenni. De vigyázat: ha ezt a kezelést nem hajtjuk végre, akkor a `require` veszélyes lehet, mert azt okozhatja, hogy a futás nem áll meg azonnal, és csak később -- praktikusan amikor az adott könyvtárból akarunk egy függvényt hívni -- lesz baj, amit viszont így nehezebb lesz beazonosítani, hogy mi okoz. Mivel azonban egy csomag elérhetőségének az ellenőrzésére van más megoldás, a `requireNamespace` függvény, így van, aki azt javasolja, hogy `require`-t egyáltalán ne használjunk.] hajthatjuk végre:
+Ez nem szó szerint a csomag betöltése, abban az értelemben, hogy ettől nem válik a csomag összes többi függvénye elérhetővé, csak ez az egy (és ez az egy is csak ekkor, ha később újra szükségünk van erre a függvényre, akkor megint elé kell írni, hogy `actuar::`). A csomag szó szerinti betöltését a `library` függvénnyel^[Ennek van egy alternatívája, a `require` függvény. A kettő nagyon hasonlít egymásra, az egyetlen különbség akkor bukik ki, ha nem telepített könyvtárat akarunk betölteni: ekkor a `library` hibát ad, a `require` csak figyelmeztetést, és visszatérési értékként `FALSE`-ot (sikeres betöltés esetén ezzel szemben `TRUE`-t). Ebből következik, hogy interaktív munkamenetnél -- magyarán, ha kézzel pötyögünk, meg hajtatunk végre kódsorokat -- a `library` tökéletes, viszont ha csomag-betöltést egy futó program maga végzi, akkor a `require` jobb lehet, mert gépi úton tudjuk kezelni a helyzetet, hogy volt-e az adott gépen telepítve a csomag, sikerült-e betölteni, és ennek fényében továbbmenni. De vigyázat: ha ezt a kezelést nem hajtjuk végre, akkor a `require` veszélyes lehet, mert azt okozhatja, hogy a futás nem áll meg azonnal, és csak később -- praktikusan amikor az adott könyvtárból akarunk egy függvényt hívni -- lesz baj, amit viszont így nehezebb lesz beazonosítani, hogy mi okoz. Mivel azonban egy csomag elérhetőségének az ellenőrzésére van más megoldás, a `requireNamespace` függvény, így van, aki azt javasolja, hogy `require`-t egyáltalán ne használjunk.] hajthatjuk végre:
 
 ```{r}
 library(actuar)
@@ -102,7 +101,7 @@ rinvexp(10)
 
 Egy apró megjegyzés a teljes precizitás kedvéért. A négyespont operátor csak azokat a függvényeket teszi elérhetővé, amik ún. exportált függvényei a csomagnak. Az exportálás lényegében azt jelenti, hogy elérhetővé akarjuk-e tenni az adott csomagbeli függvényt. Ez elsőre meglepő lehet (miért raknánk egy függvényt egy csomagba, ha nem akarjuk elérhetővé tenni?!), de elképzelhetőek helyzetek, ahol ennek van értelme, például, mert csak egy belső célokat szolgáló segédfüggvényről van szó -- az ilyeneknek lehet szerepe, a felhasználó számára is, mert *más* csomagbeli függvények meghívhatják, csak közvetlenül nem lehet őket kívülről meghívni. Ha valami oknál fogva mégis ezt szeretnénk, akkor a `:::` operátort kell használni, ezzel nem exportált függvény is hívható.
 
-A nyitva maradt kérdés, hogy melyik a jobb megoldás, a `::` használata vagy a `library`-vel történő betöltés? A válaszhoz egy dolgot kell még tudni, azt, hogy mi történik akkor, ha a csomagban van egy olyan nevű függvény, ami már létezik. Hiszen minden további nélkül lehet egy `rnorm` nevű függvény definiálva egy csomagban! (Vagy akár két különböző csomagban.) A helyzet az, hogy ilyenkor, ha betöltjük a csomagot `library`-vel, akkor felülíródik a csomag függvényével a korábban már létező, ugyanolyan nevű függvény. Ha betöltünk később egy másik csomagot is `library`-vel, amiben van ugyanolyan nevű függvény, akkor meg azzal íródik felül. Az `rnorm` kicsit extrém példa, de mondjuk `filter` nevű függvény tényleg tömegével van különféle csomagokban. A dolog tehát egy olvashatósági problémát fog okozni: ha egyszerűen annyit látunk egy kódsorban, hogy `filter(x)`, akkor nem tudhatjuk, hogy ez *minek* a `filter`-je, melyik csomag `filter` nevű függvénye fog itt lefutni. A "beépített" `filter`? (Mert van ez is; igazából a `stats` csomagé.) A `dplyr` csomag `filter`-je? A `signal` csomag `filter`-je? A `seewave` csomag `filter`-je? A legrosszabb, hogy ezt nem is *lehet* megmondani pusztán ebből a kódsorból -- mert azon fog múlni, hogy melyik csomagot töltöttük be utoljára! Tehát ezt csak úgy tudjuk eldönteni, ha visszamegyünk a kódban (akár több száz vagy ezer sort is adott esetben), megnézzük az *összes* `library` hívást, hogy definiál-e `filter`-t, és ez fogja eldönteni, hogy a kérdéses sorban pontosan mi is fut: a beépített `filter` vagy valamelyik csomagé? Ha több, `filter`-t definiáló csomagot is betöltünk `library`-vel, akkor még az is számítani fog, hogy milyen sorrendben töltjük be őket! Emiatt célszerűbb, ha ahol lehet, inkább a `::` operátort használjuk. Ennek az egyetlen hátránya^[Elvileg egy nagyon minimális teljesítmény-veszteséget jelent a `::` (mivel a háttérben egy függvényhívást jelent igazából), de ennek valószínűleg semmilyen gyakorlati esetben nem lesz érdemi jelentősége: én most tettem egy próbát, az `actuar::rinvexp(10)` medián futásideje a gépemen 1,9 $\mu$s, az `actuar` csomag `library`-vel betöltése után az `rinvexp(10)`-é 1,6 $\mu$s. Egy fokkal talán nyomósabb érv lehet a `library` mellett, hogy ha a szkriptünket azzal kezdjük, hogy az összes használt csomagot be-`library`-zzük, akkor egyrészt azonnal látszik, hogy mikre lesz szükség, másrészt, ha valamelyik nincs meg a futtató felhasználó gépén, akkor az rögtön az elején kiderül a hibából. A `library`-k használata nélkül ez csak az első `::`-nál bukna ki, ami nem elegáns: általános programtervezési elv, hogy ha valami baj van, akkor jobb, ha az minél előbb kiderül.], hogy többet kell hozzá írni, és ha nagyon sokszor ismétlődik, az zavaró lehet, így végeredményben az ajánlás az, hogy `library`-vel *csak* azokat a csomagokat töltsük be, amik alapvetőek, amik függvényeit sokszor és intenzíven használjuk -- a többi esetében jobb a `::` használata.
+A nyitva maradt kérdés, hogy melyik a jobb megoldás, a `::` használata vagy a `library`-vel történő betöltés? A válaszhoz egy dolgot kell még tudni, azt, hogy mi történik akkor, ha a csomagban van egy olyan nevű függvény, ami már létezik. Hiszen minden további nélkül lehet egy `rnorm` nevű függvény definiálva egy csomagban! (Vagy akár két különböző csomagban.) A helyzet az, hogy ilyenkor, ha betöltjük a csomagot `library`-vel, akkor felülíródik a csomag függvényével a korábban már létező, ugyanolyan nevű függvény. Ha betöltünk később egy másik csomagot is `library`-vel, amiben van ugyanolyan nevű függvény, akkor meg azzal íródik felül. Az `rnorm` kicsit extrém példa, de mondjuk `filter` nevű függvény tényleg tömegével van különféle csomagokban. A dolog tehát egy olvashatósági problémát fog okozni: ha egyszerűen annyit látunk egy kódsorban, hogy `filter(x)`, akkor nem tudhatjuk, hogy ez *minek* a `filter`-je, melyik csomag `filter` nevű függvénye fog itt lefutni. A "beépített" `filter`? (Mert van ez is; igazából a `stats` csomagé.) A `dplyr` csomag `filter`-je? A `signal` csomag `filter`-je? A `seewave` csomag `filter`-je? A legrosszabb, hogy ezt nem is *lehet* megmondani pusztán ebből a kódsorból -- mert azon fog múlni, hogy melyik csomagot töltöttük be utoljára! Tehát ezt csak úgy tudjuk eldönteni, ha visszamegyünk a kódban (akár több száz vagy ezer sort is adott esetben), megnézzük az *összes* `library` hívást, hogy definiál-e `filter`-t, és ez fogja eldönteni, hogy a kérdéses sorban pontosan mi is fut: a beépített `filter` vagy valamelyik csomagé? Ha több, `filter`-t definiáló csomagot is betöltünk `library`-vel, akkor még az is számítani fog, hogy milyen sorrendben töltjük be őket! Emiatt célszerűbb, ha ahol lehet, inkább a `::` operátort használjuk. Ennek az egyetlen hátránya^[Elvileg egy nagyon minimális teljesítmény-veszteséget jelent a `::` (mivel a háttérben egy függvényhívást jelent igazából), de ennek a legtöbb gyakorlati esetben nem lesz érdemi jelentősége: én most tettem egy próbát, az `actuar::rinvexp(10)` medián futásideje a gépemen 1,9 $\mu$s, az `actuar` csomag `library`-vel betöltése után az `rinvexp(10)`-é 1,6 $\mu$s. A különbség 300 ns, azaz ha egymillió alkalommal használjuk a `::` operátort egy kódban, az összesen 0,3 másodperc veszteséget fog jelenteni... Egy fokkal talán nyomósabb érv lehet a `library` mellett, hogy ha a szkriptünket azzal kezdjük, hogy az összes használt csomagot be-`library`-zzük, akkor egyrészt azonnal látszik, hogy mikre lesz szükség, másrészt, ha valamelyik nincs meg a futtató felhasználó gépén, akkor az rögtön az elején kiderül a hibából. A `library`-k használata nélkül ez csak az első `::`-nál bukna ki, ami nem elegáns: általános programtervezési elv, hogy ha valami baj van, akkor jobb, ha az minél előbb kiderül.], hogy többet kell hozzá írni, és ha nagyon sokszor ismétlődik, az zavaró lehet, így végeredményben az ajánlás az, hogy `library`-vel *csak* azokat a csomagokat töltsük be, amik alapvetőek, amik függvényeit sokszor és intenzíven használjuk -- a többi esetében jobb a `::` használata.
 
 Egyetlen megjegyzés a végére: néha érdemes a csomagokat frissíteni! Hiszen a csomagok frissülnek a CRAN-en, ha a szerzőjük feltölt egy újabb változatot, de az nem kerül át automatikusan a gépünkre. Ezért érdemes rendszeresen megnyomni RStudio-ban a Tools / Update packages pontot, és az összes csomagot frissíteni. (Egyébként végeredményben ez is az `install.packages`-t fogja meghívni.)
 
@@ -185,3 +184,98 @@ do.call(rnorm, fuggvenyargs)
 ```
 
 A `do.call` tehát meghívja az első argumentumban megadott függvényt a második argumentumban megadott argumentumokkal. A `do.call` lényegében elválasztja egymástól a függvény nevét és argumentumait (ami az `rnorm(sd = 15, n = 10, mean = 70)` típusú hívásnál össze van gubancolódva); ezzel megoldást adva a fentiekben említett helyzetre is. Ha a függvény argumentumai között `...` van, a `do.call` akkor is működik, vagyis az átadott lista hossza nem kötelező, hogy mindig ugyanaz legyen.
+
+## Az R-ben minden utasítás függvényhívás
+
+Érdemes még egy dologról beszélni, ami látszólag egy erősen technikai aspektus, de valójában fontos következményei vannak: arról, hogy az R-ben minden utasítás igazából függvényhívás.
+
+Ennek első ránézésre pár dolog ellentmond; nézzük most meg ezeket közelebbről. Kezdjük kapásból ezzel:
+
+```{r}
+1 + 2
+```
+
+Ez hogy lenne már függvényhívás?! Nincs is benne függvénynév, pláne nincs gömbölyű zárójel, meg argumentumok...! -- mondhatná valaki. Azonban a helyzet az, hogy de, van benne függvénynév, a `+`. Ez igenis egy függvény neve, nyugodtan leírhatjuk szokásos formában is, egyedül arra kell figyelni, hogy a `+` karakter nem felel meg a változónevekre vonatkozó, korábban látott szabályoknak -- úgynevezett nem szintaktikus név -- ezért a szokásos formájú hívásnál backtick-ek közé kell tenni:
+
+```{r}
+`+`(1, 2)
+```
+
+Egyszerűen arról van szó, hogy az R ad nekünk annyi segítséget, hogy megengedi, hogy a zárójelet nem kell kitenni, de ami még fontosabb, hogy lehetővé teszi, hogy ilyen, úgynevezett operátorok a szokásos módon, az argumentumok között szerepeljenek. (Ezt hívják amúgy a programozáselméletben infix jelölésnek, míg a második, "szokásos függvényhívás" formát prefix jelölésnek.)
+
+Mi a helyzet az értékadással? Mondjuk:
+
+```{r}
+x <- 5
+x
+```
+
+Itt már talán nem okozok meglepetést: egyszerűen arról van szó, hogy a `<-` az igazából egy függvény. Úgyhogy igen, bármilyen meglepő, de a fenti igazából ezzel egyenértékű:
+
+```{r}
+`<-`(x, 10)
+x
+```
+
+Az egyetlen, ami fontos, hogy ez egy mellékhatásos függvény, ahol a mellékhatás az, hogy a memóriában valami elhelyeződik.
+
+A végére hagytam a talán legfontosabb példát. Mi a helyzet azzal, amit eddig úgy hívtunk, hogy "kiíratjuk egy változó értékét"? Például:
+
+```{r}
+x
+```
+
+Na itt aztán végképp nincsen semmilyen függvényhívás...! -- mondhatná valaki. De! Nagyon is van, a helyzet ugyanis az, hogy az R, miután végzett a kiértékelésekkel, az eredményre automatikusan meghívja a `print` függvényt. (Meglepő lehet, hogy kiértékelést említettem -- mit kell abban kiértékelni, hogy `x`? -- és ez valóban egyértelműbb lenne, ha azt írtam volna, hogy `exp(x)`, de valójában az `x` is kiértékelhető, egyszerűen azzal a szabállyal, hogy egy változó kiértékeltje saját maga.) A fenti tehát igazából ezt jelenti:
+
+```{r}
+print(x)
+```
+
+A `print` pedig egy mellékhatásos függvény, ahol a mellékhatás az, hogy az eredmény megjelenik a konzolon.
+
+(Zárójel: tehát az `1 + 2` az nem csak `` `+`(1, 2)`` valójában, hanem ``print(`+`(1, 2))``...!)
+
+A dolog azért fontos, mert az R-ben van egy viselkedés, ami csak a fentiek ismeretében érthető meg. Töltsük be a példa-adatbázisunkat, és hajtsunk végre egy egyszerű statisztikai próbát:
+
+```{r}
+data(birthwt, package = "MASS")
+t.test(bwt ~ smoke, data = birthwt)
+```
+
+Hogy mi ez a próba, az most teljesen mindegy is ($t$-próbával vizsgáljuk, hogy a dohányzó és a nem-dohányzó anyukák újszülttjeinek várható születési tömege szignifikánsan eltér-e), a fontos, hogy valamilyen komplexebb statisztikai elemzés. Mit látunk? Egy szép, ízlésesen elrendezett eredményt, benne a legfontosabb számokkal, sőt, még némi magyarázó szöveggel is kiegészítve. Ami most lényeges: úgy tűnik, hogy működik a szabály, hogy "ha nincs nyíl, akkor kiíratunk, de nem mentünk": a kiíratás valóban megjelent, és új változó valóban ne jött létre. Ellenőrizzük le a fordított irányt:
+
+```{r}
+teszteredmeny <- t.test(bwt ~ smoke, data = birthwt)
+```
+
+Továbbra is stimmel minden: most nem íratódott ki semmi, de létrejött az új változó. Ahogy vártuk! Most nézzük meg, mi van a változóban:
+
+```{r}
+teszteredmeny
+```
+
+Ez is pontosan megfelel a várakozásunknak: az van benne, amit korábban a kiíratásnál kaptunk. Mi más lenne? Nos, nézzük kicsit meg közelebbről ezt a változót:
+
+```{r}
+str(teszteredmeny)
+```
+
+És akkor itt jön a meglepetés: ez a változó valójában egy 10 elemű lista...! De akkor hogyan lett a kiíratásakor ebből egy ilyen szöveg?! (A kiírt dolgok egy része, például ezek a magyarázó szövegek még csak benne sincsenek a változóban!) Hogy jelenhetett akkor ez meg a kiíratáskor?
+
+A válasz a fenti output utolsó sorában rejlik. Amit itt látunk, hogy van egy `class` nevű attribútuma a változónak, ami `htest` értékre van beállítva. Mint tudjuk, bármilyen nevű attribútumot definiálhatunk egy változóhoz, de a `class` különlegesen viselkedik. A részletek megtárgyalása nélkül: valójában nem egyetlen `print` függvény van, hanem több tucatnyi, és az R-ben van egy belső mechanizmus, ami az alapján választja ki, hogy pontosan melyik fut le, hogy mi a kiíratott változó `class`-a. Ha `htest`, akkor igazából a `print.htest` fog lefutni^[A `print`-nek természetesen van egy alapértelmezett variánsa is, a `print.default`, ez fut akkor, ha nincs `class`, vagy az adott `class`-hoz nincs külön definiált `print`.]. Ez pedig így néz ki (figyeljük meg, hogy a `:::` operátort kell használnunk, mert ez a függvény ugyan benne van az -- automatikusan betöltődő -- `stats` csomagban, de nem exportált függvény, ami logikus is, mert kívülről direkte nem kell meghívnunk):
+
+```{r}
+stats:::print.htest
+```
+
+Nem fontos, hogy a fenti kód minden egyes részét pontosan értsük, a fontos az összkép: *ez* tartalmazza a szép, ízléses, magyarázott kiíratás sémáját! Ebben van benne az elrendezés, az összekötő szövegek stb., természetesen úgy, hogy a dolog hivatkozik a kiírandó változó megfelelő számaira -- amik ugyebár a lista egyes elemei. Fix szövegként kiírja, úgy sorba, hogy "sample estimates", azaz a becslések a mintából, utána pedig jön az `x$estimate`, vagyis, hogy "vedd ki az `x`-ből -- ami a kiírandó változó -- az `estimate` nevű elemet". És menjünk vissza, nézzük meg: valóban az lesz a lista `estimate` nevű elemében, ami megjelenik a "sample estimates" után! A (megfelelő) `print` tartalmazza a sémát, a konkrét számok pedig kitöltődnek a ki-`print`-elt változóból, mint listából.
+
+Egyébként kipróbálhatjuk, hogy ha rákényszerítjük, hogy ne a testreszabott, hanem az alapértelmezett `print` függvényt használja az R a kiíratáshoz, akkor valóban úgy kapjuk meg a `teszteredmeny` változó tartalmát, mint egy szokásos lista:
+
+```{r}
+print.default(teszteredmeny)
+```
+
+Így már jobban érthető a listák jelentősége is, amit a korábbi fejezetben nem tudtam pontosan elmondani: a listák rengetegszer előfordulnak -- akkor is, amikor mi nem látjuk! Hiszen ebben a $t$-próbás példában sehol nem bukkantak fel explicite listák, nem kellett listát kezelnünk, azt sem kellett tudnunk, hogy mi az, hogy lista -- de a háttérben nagyon is volt szerepük, listák mozogtak a különböző függvények között. A kicsit is komplexebb statisztikai számítások nagyon gyakran listát adnak vissza (még ha ezt mi nem is látjuk), ami teljesen logikus ha meggondoljuk, hiszen tipikus, hogy ezek különböző típusú adatokat tartalmaznak. Ez így van a $t$-próbás példában is, ahol előfordul szám, szöveg, egyelemű és többelemű vektor. Az ilyenek tárolására pont a lista a megfelelő adatszerkezet.
+
+A `class`-t természetesen mi magunk is kihasználhatjuk a saját függvényeinkben. A fentiek ugyanis azt jelentik, hogy ha beállítunk egy `class`-t a függvényünk által visszaadott listára *és* definiálunk egy `print`-et arra a `class`-ra, akkor a függvényünk eredménye rögtön szépen megformázva fog megjelenni -- anélkül, hogy a felhasználónak bármit tennie kellett volna (vagy akár csak tudna erről az egészről)!

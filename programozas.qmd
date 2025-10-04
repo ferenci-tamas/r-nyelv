@@ -1,7 +1,117 @@
 # Az R programozása
 
-Programozás.
+Az eddigieket felhasználva elkezdhetünk megismerkedni az R programozásának alapvető módszereivel és fortélyaival. Ezek egyszerűbb problémák megoldására önmagában alkalmasak, a bonyolultabb feladatok esetén pedig építőelemként szolgálnak, melyek használata lehetővé teszi komplex programok létrehozását.
+
+A következőkben mindenhol a már látott, születési tömeges adatbázist fogjuk példaként használni:
 
 ```{r}
 data(birthwt, package = "MASS")
+birthwt$race <- factor(
+  birthwt$race, levels = 1:3,
+  labels = c("Kaukázusi", "Afro-amerikai", "Egyéb"))
+```
+
+## Ismétlődő feladat kezelése saját függvénnyel
+
+Kezdjünk egy egyszerű feladattal: határozzuk meg az átlagos születési tömeget a különböző rasszhoz tartozó anyák körében!
+
+Kezdjük a kaukázusi rasszal. A feladat valóban nem túl bonyolult: elsőként le kell szűkíteni az adatbázist (ehhez használjuk a logikai vektorral történő indexelést, ahol a vektort természetesen gépi úton, összehasonlítással állítjuk elő), kiválasztani a megfelelő oszlopot, majd venni az átlagát:
+
+```{r}
+mean(birthwt[birthwt$race == "Kaukázusi",]$bwt)
+```
+
+A feladat teljesen hasonlóan oldható meg a másik két rasszal:
+
+```{r}
+mean(birthwt[birthwt$race == "Afro-amerikai",]$bwt)
+mean(birthwt[birthwt$race == "Egyéb",]$bwt)
+```
+
+E kódsorokra ránézve remélhetőleg mindenkiben megszólal a vészcsengő: ebben rengeteg redundancia, ismétlődés van. (Ha valakinek ez így nem lenne kellően drámai, akkor gondoljon arra, hogy mi van, ha nem 3, hanem 30 kategóriánk van!) De erre már láttuk a megoldást: saját függvényt kell írni! Jelen esetben ez így nézhet ki:
+
+```{r}
+racemean <- function(race) {
+  mean(birthwt[birthwt$race == race,]$bwt)
+}
+```
+
+Ha valaki még nem írt ilyet, akkor egy dolog szokott nehézséget jelenteni, az argumentum kezelése. Eleinte ugyanis furcsa lehet, hogy megjelent egy `race` változó (mi az értéke? mit jelent ez? sehol nem definiáltunk ilyet!). Ha valakit ez megzavarna, akkor egyetlen dologra kell emlékeznie: mindenhol, ahol `race`-t lát, oda kell képzelnie, hogy `"Kaukázusi"`! (Vagy bármelyik másik kategóriát.) A válasz a kérdésre ugyanis az, hogy ennek az az értéke, amit a felhasználó megad a függvény hívásakor (ami persze bármi lehet, ezért lesz ez változó); arról pedig az R gondoskodik, hogy valóban ez kerüljön ebbe a változóba. Igen, mi nem definiáltunk ilyen változót, de a függvény futásának idejére lesz ilyen, pontosan ugyanúgy, mint egy általunk létrehozott változó, ezt az R fogja intézni. Erre gondolva kell megírni a függvényt.
+
+E saját függvény használatával így nézhet ki a probléma megoldása:
+
+```{r}
+racemean("Kaukázusi")
+racemean("Afro-amerikai")
+racemean("Egyéb")
+```
+
+## Ciklusszervezés
+
+A fenti megoldás nagyon sokat javított a redundancián, de azért egy kis hiányérzetünk maradhat: a `racemean` így is háromszor van leírva. Miért? Lényegében arról van szó, hogy ugyanazt a műveletet kell többször egymás után végrehajtani (csak más adatokon). Az ilyen ismétlődő -- szó szerint azonos, vagy legalábbis hasonló -- kódok végrehajtása megint csak egy redundancia-probléma. És a megoldás itt is ugyanaz: ne kézzel másolgassuk le többször egymás alá! Ha azonos műveletet kell végrehajtani, akkor csak adjuk meg, hogy mit és hányszor, ha pedig hasonlót, akkor legyen egy változó, ami különböző értékeket vesz fel, megtestesítve az eltérést a többszöri futtatások között, és egyszer adjuk meg a kódot (ami természetesen függeni fog ettől a változótól). Az ilyet szokták a programozáselméletben ciklusnak vagy iterációnak hívni; nagyon sokszor merül ez fel a gyakorlatban. Az R egyik nagyon fontos eltérése más programnyelvektől, hogy hogyan kezeljük az ilyen helyzeteket.
+
+Más programnyelveken általában explicite, kézzel kell megszerveznünk a ciklust: meg kell adnunk a kódrészletet amit újra meg újra megismétlünk, meg kell adni, hogy ez az ismételtetés hogyan történjen (milyen változó és hogyan változzon közben, meddig tartson a ciklus), az R-nél azonban nem ez a helyzet: az esetek túlnyomó többségében egy függvényt, az `apply`-függvénycsalád valamelyik tagját kell használni erre a célra. Itt például bevethetjük az `lapply`-t:
+
+```{r}
+lapply(c("Kaukázusi", "Afro-amerikai", "Egyéb"), racemean)
+```
+
+Mi történik itt? Az `lapply` egy kétargumentumú függvény, az első argumentuma egy vektor, a második egy függvény. Az `lapply` azt csinálja, hogy a második argumentumban megadott függvényt egyesével ráereszti az első argumentumban megadott vektor minden egyes elemére (azaz meghívja a függvényt rájuk, mint argumentumra), és a kapott visszatérési értékeket összefűzi egy listába. (Innen az `l` betű a függvény nevének az elején: ez mindenképp listát ad vissza.) Ezzel a módszerrel lényegében létrehoztunk egy ciklust.
+
+Gyakran használjuk még az `sapply`-t is, itt az `s` betű arra utal, hogy simplified, azaz egyszerűsített: ha az `lapply` olyan eredményt ad, ahol a lista valamilyen egyszerűbb objektumra konvertálható, akkor az `sapply` ezt megteszi. Itt erről van szó, hiszen a lista minden eleme egyetlen szám, így az egyszerűbb objektum kézenfekvő lesz: egy vektor^[Ez természetesen nem mindig van így: lehet, hogy a listában mondjuk adatkeretek vannak, akár az is előfordulhat, hogy az egyik elem egy szám, a másik egy adatkeret. Ilyenkor az `sapply` nem egyszerűsít, hiszen nem is tud. Az sem biztos, hogy mindig vektorrá egyszerűsít: ha a lista elemei vektorok, akkor mátrixszá fog egyszerűsíteni. Egyébként ez az oka annak, hogy van, aki nem ajánlja az `sapply` használatát nem interaktív kódban: nem tudható előre, hogy mi lesz az eredményének a típusa. Ezt a problémát `vapply` oldja meg, ahol ezt a típust meg kell adni, így a meghívása biztonságosabb -- és kicsit gyorsabb is -- mégis, ritkán használják.]. Az `sapply`-jal valóban erre jutunk:
+
+```{r}
+sapply(c("Kaukázusi", "Afro-amerikai", "Egyéb"), racemean)
+```
+
+És íme, a végleges, redundancia-mentes, elegáns, R-stílusú megoldás^[Amely megoldás ebben az esetben egyébként teljesen felesleges, mert erre a konkrét szituációra van egy másik, kész R-függvény -- a `tapply` -- de itt a cél csak a módszerek demonstrációja volt.]!
+
+Egy pillanatra visszatérnék még a "más programnyelvekben szokásos megoldások" kitételre. A legtipikusabb példa a `for`-ciklus; ez elvileg R-ben is megvalósítható: meg kell adni egy vektort, egy változónevet^[Vigyázat, ha ilyen nevű változó már létezik, akkor az értéke felül fog íródni a `for`-ciklus végrehajtása során azokkal az értékekkel, amiket a változó a ciklusban felvesz, tehát, a vektorban lévő elemekkel.] és egy kódot, az R pedig újra meg újra lefuttatja a kódot úgy, hogy a változó közben egyesével felveszi a vektorban foglalt értékeket^[Látható tehát, hogy egy megszorítás van: előre és pontosan meg kell adni, hogy a ciklusváltozó milyen értékeket fog felvenni. A programozáselméletben ezt gyakran igazából `foreach`-ciklusnak hívják, és a `for`-ciklus nevet fenntartják arra az esetre, amikor csak azt adjuk meg, hogy mettől-meddig menjen a ciklusváltozó (esetleg kiegészítve azzal, hogy milyen lépésközzel), vagy megadjuk, hogy mi legyen a kezdőértéke, milyen műveletet hajtsunk végre vele minden iterációban, és mikor álljon meg a ciklus.]. A fenti példa ezért így nézhet ki `for`-ciklussal:
+
+```{r}
+for(race in c("Kaukázusi", "Afro-amerikai", "Egyéb")) {
+  racemean(race)
+}
+```
+
+A szépséghiba, hogy így csak kiírattuk az értékeket, de nem mentettük el változóba. Ezt megtehetjük például így, létrehozva egy -- eleinte üres -- számvektort az eredmények tárolására, és minden ciklusban hozzáfűzve az új eredményt a vektor végére:
+
+```{r}
+res <- numeric()
+for(race in c("Kaukázusi", "Afro-amerikai", "Egyéb")) {
+  res <- c(res, racemean(race))
+}
+res
+```
+
+Ez a megoldás működik, de nagyon szerencsétlen és kerülendő: a probléma az, hogy ez esetben a R-nek minden egyes ciklusban újra kell foglalnia a memóriát a `res` számára és átmásolnia az új helyre; ez veszteség, lassú lesz. Éppen ezért ilyen esetekben mindig az a jó megoldás, ha preallokálunk, tehát előre lefoglaljuk a memóriát a `res` végleges méretével, és a ciklusban mindig a megfelelő helyre tesszük az eredményt:
+
+```{r}
+races <- c("Kaukázusi", "Afro-amerikai", "Egyéb")
+res <- numeric(length(races))
+for(i in seq_along(races)) {
+  res[i] <- racemean(races[i])
+}
+res
+```
+
+(A `seq_along` funkciójában teljesen hasonló az `1:length(races)`-hez, ami valószínűleg az ember első gondolata lenne a fenti helyzetben. A `seq_along` azért jobb, mert ha a vektor hossza véletlenül nulla, akkor az utóbbi megoldás az `c(1, 0)` vektoron futtatná végig a ciklust, hiszen a `:` csökkenő sorozatot is tud generálni, míg a `seq_along` -- helyesen -- semmin, ugyanis a `seq_along(x)` hossza mindig azonos lesz `x` hosszával. A fenti esetben a dolognak nincs jelentősége, hiszen pontosan tudjuk mi lesz a `races`, de jobb a hibaállóbb megoldást megszokni.)
+
+Talán már a fenti kód is sugallja, hogy miért jobb az `sapply` a maga 1, azaz egy sorával... A különbség oka egyszerűen az, hogy az `sapply` megcsinál helyettünk egy sor dolgot, amit a `for` ciklus esetén nekünk, kézzel kellett elintéznünk: memóriát foglal, végigmegy az elemeken, gondoskodik róla, hogy minden a megfelelő helyre kerüljön stb. Mi ennek az oka? Az `sapply` írói okosak, de legalábbis kedvesek voltak, hogy nekünk kevesebb munkák legyen, a `for` írói viszont megsavanyodott programozók, akik szeretnék, ha sokat dolgozhatunk? Nem. Ez azért van, mert a `for` flexibilisebb: igaz, hogy az `sapply` ezeket mind megteszi helyettünk, viszont cserében mást nem is választhatunk, a `for` esetén viszont megtehetjük, hogy minden második elemet mentjük csak el egy vektorba, ettől függetlenül minden harmadikat kiíratjuk, és minden negyediket dallamá konvertáljuk, majd feltöltjük a Youtube-ra. A konklúzió tehát egyszerű: ha nekünk *pont* arra van szükségünk, amit az `sapply` kínál -- tehát a visszatérési értékek összefogva egy vektorba -- és nagyon sokszor erre lesz, mert nem véletlen, hogy az `sapply` ezt kínálja, akkor használjuk azt, ha nem erre, hanem valami általánosabbra, akkor használjuk a `for`-t. Megjegyzem, hogy ez egyébként egy teljesen általános tervezési elv is a programozásban: mindig a lehető *legkevésbé* flexibilist eszközt használjuk azok közül, amik már elég flexibilisek a problémánk megoldásához.
+
+Valójában egyébként nem egyszerűen a rövidség a fő kérdés^[Szokták e mellett még azt is mondani, hogy a gyorsaság szól az `apply` család mellett, mert a `for`-ciklus lassú, de ez már régen nem igaz: az R mostani verzióiban a `for`-ciklus már nagyjából ugyanolyan gyors.], hanem az olvashatóság, értelmezhetőség, de ami valójában még ennél is fontosabb, hogy az `apply` család sokkal jobban megfelel az R filozófiájának, mint a `for`-ciklus. Erről a következő pontban lesz részletesen szó.
+
+A dolog végkonklúziója egyszerűen összefoglalható: R-ben ne használjunk `for`-ciklust! Szinte minden esetben igaz, hogy a `for`-ciklus kiváltható megfelelő `apply`-jal, és ki is váltandó.
+
+Az egyetlen kivétel, ha mellékhatásos számítást végzünk, például fájlba kell mentenünk. Ez esetben az `apply`-család nem igazán esik kézre (hiszen nincs is visszatérési érték, de legalábbis nem amiatt végezzük a számítást), így inkább elfogadható a `for`-ciklus is.
+
+A más programnyelvekben megszokott hátultesztelő ciklus nincs az R-ben, elöltesztelő van^[Két verzióban is. A `while` szokásos elöltesztelő ciklus, a `repeat`-nél viszont nincs feltétel, ezért a végtelenségig futna, így értelme csak akkor van, ha manuálisan kiugrasztjuk a ciklusból, erre a `break` nevű utasítás szolgál (ezt egyébként `for`-ciklusban is használhatjuk). A `for` ciklus mindig átírható `while`-ra, a `while` pedig mindig átírható `repeat`-re, de fordítva nem feltétlenül. Ezért elvileg lehet olyan helyzet, hogy nem tudunk `for`-t, vagy `while`-t használni, de ha tudunk, akkor használjuk inkább azokat -- itt is előjön megint ugyanaz, hogy a legkevésbé flexibilis eszköz lesz a jobb választás.]. A dolgot nem részletezem, hiszen már a `for`-ciklus használata is kerülendő, így erre végképp ritkán van szükség.
+
+Egyetlen megjegyzés a végére. A fentiekben végig azt feltételeztem, hogy nem szó szerint ugyanazt a műveletet kell többször végrehajtani (igen, a kód ugyanaz volt, de az argumentum változott). Ha mégis erre volna szükség, akkor a `replicate` függvényt használhatjuk, mely a második argumentumban várja a többször megismétlendő kódot (egyetlen kifejezést, tehát ha nem egy soros a kód, akkor kapcsos zárójelekkel blokkot kell képezni), amit az első argumentumban megadott darabszámúszor lefuttat, és eredményeket összefűzi egy megfelelő objektumba (ha egyetlen számot adunk vissza, akkor vektorba). Ezt gyakran használjuk egyszerű Monte Carlo-szimulációkban. Például egy 30 elemű minta mintaátlagának viselkedését így szimulálhatjuk:
+
+```{r}
+replicate(10, {
+  minta <- rnorm(30)
+  mean(minta)
+})
 ```

@@ -243,8 +243,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tartalomjegyzék</h2>
+   
+  <ul>
+  <li><a href="#ismétlődő-feladat-kezelése-saját-függvénnyel" id="toc-ismétlődő-feladat-kezelése-saját-függvénnyel" class="nav-link active" data-scroll-target="#ismétlődő-feladat-kezelése-saját-függvénnyel"><span class="header-section-number">4.1</span> Ismétlődő feladat kezelése saját függvénnyel</a></li>
+  <li><a href="#ciklusszervezés" id="toc-ciklusszervezés" class="nav-link" data-scroll-target="#ciklusszervezés"><span class="header-section-number">4.2</span> Ciklusszervezés</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/ferenci-tamas/r-nyelv/edit/main/programozas.qmd" class="toc-action"><i class="bi bi-github"></i>Az oldal szerkesztése</a></li><li><a href="https://github.com/ferenci-tamas/r-nyelv/blob/main/programozas.qmd" class="toc-action"><i class="bi empty"></i>Forráskód megtekintése</a></li><li><a href="https://github.com/ferenci-tamas/r-nyelv/issues/new" class="toc-action"><i class="bi empty"></i>Észrevétel jelzése</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -268,12 +275,145 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Programozás.</p>
+<p>Az eddigieket felhasználva elkezdhetünk megismerkedni az R programozásának alapvető módszereivel és fortélyaival. Ezek egyszerűbb problémák megoldására önmagában alkalmasak, a bonyolultabb feladatok esetén pedig építőelemként szolgálnak, melyek használata lehetővé teszi komplex programok létrehozását.</p>
+<p>A következőkben mindenhol a már látott, születési tömeges adatbázist fogjuk példaként használni:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(birthwt, <span class="at">package =</span> <span class="st">"MASS"</span>)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(birthwt, <span class="at">package =</span> <span class="st">"MASS"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>birthwt<span class="sc">$</span>race <span class="ot">&lt;-</span> <span class="fu">factor</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  birthwt<span class="sc">$</span>race, <span class="at">levels =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Kaukázusi"</span>, <span class="st">"Afro-amerikai"</span>, <span class="st">"Egyéb"</span>))</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="ismétlődő-feladat-kezelése-saját-függvénnyel" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="ismétlődő-feladat-kezelése-saját-függvénnyel"><span class="header-section-number">4.1</span> Ismétlődő feladat kezelése saját függvénnyel</h2>
+<p>Kezdjünk egy egyszerű feladattal: határozzuk meg az átlagos születési tömeget a különböző rasszhoz tartozó anyák körében!</p>
+<p>Kezdjük a kaukázusi rasszal. A feladat valóban nem túl bonyolult: elsőként le kell szűkíteni az adatbázist (ehhez használjuk a logikai vektorral történő indexelést, ahol a vektort természetesen gépi úton, összehasonlítással állítjuk elő), kiválasztani a megfelelő oszlopot, majd venni az átlagát:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(birthwt[birthwt<span class="sc">$</span>race <span class="sc">==</span> <span class="st">"Kaukázusi"</span>,]<span class="sc">$</span>bwt)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3102.719</code></pre>
+</div>
+</div>
+<p>A feladat teljesen hasonlóan oldható meg a másik két rasszal:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(birthwt[birthwt<span class="sc">$</span>race <span class="sc">==</span> <span class="st">"Afro-amerikai"</span>,]<span class="sc">$</span>bwt)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2719.692</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(birthwt[birthwt<span class="sc">$</span>race <span class="sc">==</span> <span class="st">"Egyéb"</span>,]<span class="sc">$</span>bwt)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2805.284</code></pre>
+</div>
+</div>
+<p>E kódsorokra ránézve remélhetőleg mindenkiben megszólal a vészcsengő: ebben rengeteg redundancia, ismétlődés van. (Ha valakinek ez így nem lenne kellően drámai, akkor gondoljon arra, hogy mi van, ha nem 3, hanem 30 kategóriánk van!) De erre már láttuk a megoldást: saját függvényt kell írni! Jelen esetben ez így nézhet ki:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>racemean <span class="ot">&lt;-</span> <span class="cf">function</span>(race) {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(birthwt[birthwt<span class="sc">$</span>race <span class="sc">==</span> race,]<span class="sc">$</span>bwt)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Ha valaki még nem írt ilyet, akkor egy dolog szokott nehézséget jelenteni, az argumentum kezelése. Eleinte ugyanis furcsa lehet, hogy megjelent egy <code>race</code> változó (mi az értéke? mit jelent ez? sehol nem definiáltunk ilyet!). Ha valakit ez megzavarna, akkor egyetlen dologra kell emlékeznie: mindenhol, ahol <code>race</code>-t lát, oda kell képzelnie, hogy <code>"Kaukázusi"</code>! (Vagy bármelyik másik kategóriát.) A válasz a kérdésre ugyanis az, hogy ennek az az értéke, amit a felhasználó megad a függvény hívásakor (ami persze bármi lehet, ezért lesz ez változó); arról pedig az R gondoskodik, hogy valóban ez kerüljön ebbe a változóba. Igen, mi nem definiáltunk ilyen változót, de a függvény futásának idejére lesz ilyen, pontosan ugyanúgy, mint egy általunk létrehozott változó, ezt az R fogja intézni. Erre gondolva kell megírni a függvényt.</p>
+<p>E saját függvény használatával így nézhet ki a probléma megoldása:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">racemean</span>(<span class="st">"Kaukázusi"</span>)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3102.719</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">racemean</span>(<span class="st">"Afro-amerikai"</span>)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2719.692</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">racemean</span>(<span class="st">"Egyéb"</span>)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2805.284</code></pre>
+</div>
+</div>
+</section>
+<section id="ciklusszervezés" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="ciklusszervezés"><span class="header-section-number">4.2</span> Ciklusszervezés</h2>
+<p>A fenti megoldás nagyon sokat javított a redundancián, de azért egy kis hiányérzetünk maradhat: a <code>racemean</code> így is háromszor van leírva. Miért? Lényegében arról van szó, hogy ugyanazt a műveletet kell többször egymás után végrehajtani (csak más adatokon). Az ilyen ismétlődő – szó szerint azonos, vagy legalábbis hasonló – kódok végrehajtása megint csak egy redundancia-probléma. És a megoldás itt is ugyanaz: ne kézzel másolgassuk le többször egymás alá! Ha azonos műveletet kell végrehajtani, akkor csak adjuk meg, hogy mit és hányszor, ha pedig hasonlót, akkor legyen egy változó, ami különböző értékeket vesz fel, megtestesítve az eltérést a többszöri futtatások között, és egyszer adjuk meg a kódot (ami természetesen függeni fog ettől a változótól). Az ilyet szokták a programozáselméletben ciklusnak vagy iterációnak hívni; nagyon sokszor merül ez fel a gyakorlatban. Az R egyik nagyon fontos eltérése más programnyelvektől, hogy hogyan kezeljük az ilyen helyzeteket.</p>
+<p>Más programnyelveken általában explicite, kézzel kell megszerveznünk a ciklust: meg kell adnunk a kódrészletet amit újra meg újra megismétlünk, meg kell adni, hogy ez az ismételtetés hogyan történjen (milyen változó és hogyan változzon közben, meddig tartson a ciklus), az R-nél azonban nem ez a helyzet: az esetek túlnyomó többségében egy függvényt, az <code>apply</code>-függvénycsalád valamelyik tagját kell használni erre a célra. Itt például bevethetjük az <code>lapply</code>-t:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(<span class="fu">c</span>(<span class="st">"Kaukázusi"</span>, <span class="st">"Afro-amerikai"</span>, <span class="st">"Egyéb"</span>), racemean)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[[1]]
+[1] 3102.719
+
+[[2]]
+[1] 2719.692
+
+[[3]]
+[1] 2805.284</code></pre>
+</div>
+</div>
+<p>Mi történik itt? Az <code>lapply</code> egy kétargumentumú függvény, az első argumentuma egy vektor, a második egy függvény. Az <code>lapply</code> azt csinálja, hogy a második argumentumban megadott függvényt egyesével ráereszti az első argumentumban megadott vektor minden egyes elemére (azaz meghívja a függvényt rájuk, mint argumentumra), és a kapott visszatérési értékeket összefűzi egy listába. (Innen az <code>l</code> betű a függvény nevének az elején: ez mindenképp listát ad vissza.) Ezzel a módszerrel lényegében létrehoztunk egy ciklust.</p>
+<p>Gyakran használjuk még az <code>sapply</code>-t is, itt az <code>s</code> betű arra utal, hogy simplified, azaz egyszerűsített: ha az <code>lapply</code> olyan eredményt ad, ahol a lista valamilyen egyszerűbb objektumra konvertálható, akkor az <code>sapply</code> ezt megteszi. Itt erről van szó, hiszen a lista minden eleme egyetlen szám, így az egyszerűbb objektum kézenfekvő lesz: egy vektor<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Az <code>sapply</code>-jal valóban erre jutunk:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(<span class="fu">c</span>(<span class="st">"Kaukázusi"</span>, <span class="st">"Afro-amerikai"</span>, <span class="st">"Egyéb"</span>), racemean)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Kaukázusi Afro-amerikai         Egyéb 
+     3102.719      2719.692      2805.284 </code></pre>
+</div>
+</div>
+<p>És íme, a végleges, redundancia-mentes, elegáns, R-stílusú megoldás<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>!</p>
+<p>Egy pillanatra visszatérnék még a „más programnyelvekben szokásos megoldások” kitételre. A legtipikusabb példa a <code>for</code>-ciklus; ez elvileg R-ben is megvalósítható: meg kell adni egy vektort, egy változónevet<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> és egy kódot, az R pedig újra meg újra lefuttatja a kódot úgy, hogy a változó közben egyesével felveszi a vektorban foglalt értékeket<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. A fenti példa ezért így nézhet ki <code>for</code>-ciklussal:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(race <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"Kaukázusi"</span>, <span class="st">"Afro-amerikai"</span>, <span class="st">"Egyéb"</span>)) {</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">racemean</span>(race)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A szépséghiba, hogy így csak kiírattuk az értékeket, de nem mentettük el változóba. Ezt megtehetjük például így, létrehozva egy – eleinte üres – számvektort az eredmények tárolására, és minden ciklusban hozzáfűzve az új eredményt a vektor végére:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(race <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"Kaukázusi"</span>, <span class="st">"Afro-amerikai"</span>, <span class="st">"Egyéb"</span>)) {</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">c</span>(res, <span class="fu">racemean</span>(race))</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>res</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3102.719 2719.692 2805.284</code></pre>
+</div>
+</div>
+<p>Ez a megoldás működik, de nagyon szerencsétlen és kerülendő: a probléma az, hogy ez esetben a R-nek minden egyes ciklusban újra kell foglalnia a memóriát a <code>res</code> számára és átmásolnia az új helyre; ez veszteség, lassú lesz. Éppen ezért ilyen esetekben mindig az a jó megoldás, ha preallokálunk, tehát előre lefoglaljuk a memóriát a <code>res</code> végleges méretével, és a ciklusban mindig a megfelelő helyre tesszük az eredményt:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>races <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Kaukázusi"</span>, <span class="st">"Afro-amerikai"</span>, <span class="st">"Egyéb"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">numeric</span>(<span class="fu">length</span>(races))</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq_along</span>(races)) {</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  res[i] <span class="ot">&lt;-</span> <span class="fu">racemean</span>(races[i])</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>res</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3102.719 2719.692 2805.284</code></pre>
+</div>
+</div>
+<p>(A <code>seq_along</code> funkciójában teljesen hasonló az <code>1:length(races)</code>-hez, ami valószínűleg az ember első gondolata lenne a fenti helyzetben. A <code>seq_along</code> azért jobb, mert ha a vektor hossza véletlenül nulla, akkor az utóbbi megoldás az <code>c(1, 0)</code> vektoron futtatná végig a ciklust, hiszen a <code>:</code> csökkenő sorozatot is tud generálni, míg a <code>seq_along</code> – helyesen – semmin, ugyanis a <code>seq_along(x)</code> hossza mindig azonos lesz <code>x</code> hosszával. A fenti esetben a dolognak nincs jelentősége, hiszen pontosan tudjuk mi lesz a <code>races</code>, de jobb a hibaállóbb megoldást megszokni.)</p>
+<p>Talán már a fenti kód is sugallja, hogy miért jobb az <code>sapply</code> a maga 1, azaz egy sorával… A különbség oka egyszerűen az, hogy az <code>sapply</code> megcsinál helyettünk egy sor dolgot, amit a <code>for</code> ciklus esetén nekünk, kézzel kellett elintéznünk: memóriát foglal, végigmegy az elemeken, gondoskodik róla, hogy minden a megfelelő helyre kerüljön stb. Mi ennek az oka? Az <code>sapply</code> írói okosak, de legalábbis kedvesek voltak, hogy nekünk kevesebb munkák legyen, a <code>for</code> írói viszont megsavanyodott programozók, akik szeretnék, ha sokat dolgozhatunk? Nem. Ez azért van, mert a <code>for</code> flexibilisebb: igaz, hogy az <code>sapply</code> ezeket mind megteszi helyettünk, viszont cserében mást nem is választhatunk, a <code>for</code> esetén viszont megtehetjük, hogy minden második elemet mentjük csak el egy vektorba, ettől függetlenül minden harmadikat kiíratjuk, és minden negyediket dallamá konvertáljuk, majd feltöltjük a Youtube-ra. A konklúzió tehát egyszerű: ha nekünk <em>pont</em> arra van szükségünk, amit az <code>sapply</code> kínál – tehát a visszatérési értékek összefogva egy vektorba – és nagyon sokszor erre lesz, mert nem véletlen, hogy az <code>sapply</code> ezt kínálja, akkor használjuk azt, ha nem erre, hanem valami általánosabbra, akkor használjuk a <code>for</code>-t. Megjegyzem, hogy ez egyébként egy teljesen általános tervezési elv is a programozásban: mindig a lehető <em>legkevésbé</em> flexibilist eszközt használjuk azok közül, amik már elég flexibilisek a problémánk megoldásához.</p>
+<p>Valójában egyébként nem egyszerűen a rövidség a fő kérdés<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>, hanem az olvashatóság, értelmezhetőség, de ami valójában még ennél is fontosabb, hogy az <code>apply</code> család sokkal jobban megfelel az R filozófiájának, mint a <code>for</code>-ciklus. Erről a következő pontban lesz részletesen szó.</p>
+<p>A dolog végkonklúziója egyszerűen összefoglalható: R-ben ne használjunk <code>for</code>-ciklust! Szinte minden esetben igaz, hogy a <code>for</code>-ciklus kiváltható megfelelő <code>apply</code>-jal, és ki is váltandó.</p>
+<p>Az egyetlen kivétel, ha mellékhatásos számítást végzünk, például fájlba kell mentenünk. Ez esetben az <code>apply</code>-család nem igazán esik kézre (hiszen nincs is visszatérési érték, de legalábbis nem amiatt végezzük a számítást), így inkább elfogadható a <code>for</code>-ciklus is.</p>
+<p>A más programnyelvekben megszokott hátultesztelő ciklus nincs az R-ben, elöltesztelő van<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>. A dolgot nem részletezem, hiszen már a <code>for</code>-ciklus használata is kerülendő, így erre végképp ritkán van szükség.</p>
+<p>Egyetlen megjegyzés a végére. A fentiekben végig azt feltételeztem, hogy nem szó szerint ugyanazt a műveletet kell többször végrehajtani (igen, a kód ugyanaz volt, de az argumentum változott). Ha mégis erre volna szükség, akkor a <code>replicate</code> függvényt használhatjuk, mely a második argumentumban várja a többször megismétlendő kódot (egyetlen kifejezést, tehát ha nem egy soros a kód, akkor kapcsos zárójelekkel blokkot kell képezni), amit az első argumentumban megadott darabszámúszor lefuttat, és eredményeket összefűzi egy megfelelő objektumba (ha egyetlen számot adunk vissza, akkor vektorba). Ezt gyakran használjuk egyszerű Monte Carlo-szimulációkban. Például egy 30 elemű minta mintaátlagának viselkedését így szimulálhatjuk:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">replicate</span>(<span class="dv">10</span>, {</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  minta <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">30</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(minta)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  0.087932205 -0.037909696  0.098082654 -0.084735572  0.015681263
+ [6] -0.027384700 -0.228735371  0.005541815  0.036373389  0.038605722</code></pre>
+</div>
 </div>
 
 
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Ez természetesen nem mindig van így: lehet, hogy a listában mondjuk adatkeretek vannak, akár az is előfordulhat, hogy az egyik elem egy szám, a másik egy adatkeret. Ilyenkor az <code>sapply</code> nem egyszerűsít, hiszen nem is tud. Az sem biztos, hogy mindig vektorrá egyszerűsít: ha a lista elemei vektorok, akkor mátrixszá fog egyszerűsíteni. Egyébként ez az oka annak, hogy van, aki nem ajánlja az <code>sapply</code> használatát nem interaktív kódban: nem tudható előre, hogy mi lesz az eredményének a típusa. Ezt a problémát <code>vapply</code> oldja meg, ahol ezt a típust meg kell adni, így a meghívása biztonságosabb – és kicsit gyorsabb is – mégis, ritkán használják.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Amely megoldás ebben az esetben egyébként teljesen felesleges, mert erre a konkrét szituációra van egy másik, kész R-függvény – a <code>tapply</code> – de itt a cél csak a módszerek demonstrációja volt.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Vigyázat, ha ilyen nevű változó már létezik, akkor az értéke felül fog íródni a <code>for</code>-ciklus végrehajtása során azokkal az értékekkel, amiket a változó a ciklusban felvesz, tehát, a vektorban lévő elemekkel.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Látható tehát, hogy egy megszorítás van: előre és pontosan meg kell adni, hogy a ciklusváltozó milyen értékeket fog felvenni. A programozáselméletben ezt gyakran igazából <code>foreach</code>-ciklusnak hívják, és a <code>for</code>-ciklus nevet fenntartják arra az esetre, amikor csak azt adjuk meg, hogy mettől-meddig menjen a ciklusváltozó (esetleg kiegészítve azzal, hogy milyen lépésközzel), vagy megadjuk, hogy mi legyen a kezdőértéke, milyen műveletet hajtsunk végre vele minden iterációban, és mikor álljon meg a ciklus.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Szokták e mellett még azt is mondani, hogy a gyorsaság szól az <code>apply</code> család mellett, mert a <code>for</code>-ciklus lassú, de ez már régen nem igaz: az R mostani verzióiban a <code>for</code>-ciklus már nagyjából ugyanolyan gyors.<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Két verzióban is. A <code>while</code> szokásos elöltesztelő ciklus, a <code>repeat</code>-nél viszont nincs feltétel, ezért a végtelenségig futna, így értelme csak akkor van, ha manuálisan kiugrasztjuk a ciklusból, erre a <code>break</code> nevű utasítás szolgál (ezt egyébként <code>for</code>-ciklusban is használhatjuk). A <code>for</code> ciklus mindig átírható <code>while</code>-ra, a <code>while</code> pedig mindig átírható <code>repeat</code>-re, de fordítva nem feltétlenül. Ezért elvileg lehet olyan helyzet, hogy nem tudunk <code>for</code>-t, vagy <code>while</code>-t használni, de ha tudunk, akkor használjuk inkább azokat – itt is előjön megint ugyanaz, hogy a legkevésbé flexibilis eszköz lesz a jobb választás.<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -689,7 +829,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/ferenci-tamas/r-nyelv/edit/main/programozas.qmd" class="toc-action"><i class="bi bi-github"></i>Az oldal szerkesztése</a></li><li><a href="https://github.com/ferenci-tamas/r-nyelv/blob/main/programozas.qmd" class="toc-action"><i class="bi empty"></i>Forráskód megtekintése</a></li><li><a href="https://github.com/ferenci-tamas/r-nyelv/issues/new" class="toc-action"><i class="bi empty"></i>Észrevétel jelzése</a></li></ul></div></div></div></footer><script type="text/javascript">
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ferenci-tamas/r-nyelv/edit/main/programozas.qmd" class="toc-action"><i class="bi bi-github"></i>Az oldal szerkesztése</a></li><li><a href="https://github.com/ferenci-tamas/r-nyelv/blob/main/programozas.qmd" class="toc-action"><i class="bi empty"></i>Forráskód megtekintése</a></li><li><a href="https://github.com/ferenci-tamas/r-nyelv/issues/new" class="toc-action"><i class="bi empty"></i>Észrevétel jelzése</a></li></ul></div></div></div></footer><script type="text/javascript">
 var sc_project=12422840; 
 var sc_invisible=1; 
 var sc_security="d32cce24"; 

@@ -312,15 +312,15 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] -0.4650108 -0.6436045  0.5136171  0.2732740 -0.4356120  1.9632869
- [7] -0.7406694 -0.8647298 -1.8927236  0.1233456</code></pre>
+<pre><code> [1]  0.27981692 -0.27583150 -0.69443250 -2.11985253 -1.18667950  0.66897052
+ [7]  0.94502687 -1.48707935  0.21976515 -0.01237069</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>osszeg <span class="ot">&lt;-</span> <span class="fu">sum</span>(x)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>atlag <span class="ot">&lt;-</span> osszeg<span class="sc">/</span>n</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>((x <span class="sc">-</span> atlag)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>(n <span class="sc">-</span> <span class="dv">1</span>)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.048531</code></pre>
+<pre><code>[1] 0.9775044</code></pre>
 </div>
 </div>
 <p>Valószínűleg sokan felismerik, hogy ezzel az <code>x</code>-ben lévő elemek varianciáját számoltuk ki. Erre ezerszer szükség lehet egy statisztikai elemzésben: egyszer kiszámolhatjuk a testtömegek varianciáját, aztán a testmagasságokét, kellhet varianciát számolni, ha valamilyen regressziót futtatunk, ha főkomponens-elemzést hajtunk végre, egyszóval milliónyi feladatnál, akár ugyanazon szkripten belül is, pláne a különböző szkriptekben.</p>
@@ -352,7 +352,7 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">variancia</span>(x)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.317466</code></pre>
+<pre><code>[1] 0.5756671</code></pre>
 </div>
 </div>
 <p>(Természetesen erre a célra van beépített – és a fentinél sokkal gyorsabb – függvény, a neve <code>var</code>, de ez most csak az illusztráció célját szolgálta.)</p>
@@ -378,8 +378,8 @@ window.Quarto = {
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>actuar<span class="sc">::</span><span class="fu">rinvexp</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  3.4424548  1.5555328 19.9458261  6.5262191  1.0578041  2.1200143
- [7]  0.9484391  0.6031417  0.2757348  0.5826413</code></pre>
+<pre><code> [1]  0.5570019  1.7106811  3.5507947  0.5507260  3.4198442  0.7334383
+ [7] 17.3335308  1.7034915  0.3015397  1.0601505</code></pre>
 </div>
 </div>
 <p>Magyarra lefordítva az <code>actuar::rinvexp</code> praktikusan azt jelenti, hogy „az <code>actuar</code> csomag <code>rinvexp</code> nevű függvénye”.</p>
@@ -405,8 +405,8 @@ Kapcsolódás csomaghoz: 'actuar'</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rinvexp</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 63.6899950  1.0134116 43.8038219  0.9412702  2.1345311  0.7567085
- [7]  0.5334478  4.8877560  1.0358613  1.1625287</code></pre>
+<pre><code> [1]   4.7962145   2.7861102   1.4279548   0.9567199   0.8463049   0.9419175
+ [7]   8.6221756   2.3298033 351.0871110   1.8875239</code></pre>
 </div>
 </div>
 <p>Egy apró megjegyzés a teljes precizitás kedvéért. A négyespont operátor csak azokat a függvényeket teszi elérhetővé, amik ún. exportált függvényei a csomagnak. Az exportálás lényegében azt jelenti, hogy elérhetővé akarjuk-e tenni az adott csomagbeli függvényt. Ez elsőre meglepő lehet (miért raknánk egy függvényt egy csomagba, ha nem akarjuk elérhetővé tenni?!), de elképzelhetőek helyzetek, ahol ennek van értelme, például, mert csak egy belső célokat szolgáló segédfüggvényről van szó – az ilyeneknek lehet szerepe, a felhasználó számára is, mert <em>más</em> csomagbeli függvények meghívhatják, csak közvetlenül nem lehet őket kívülről meghívni. Ha valami oknál fogva mégis ezt szeretnénk, akkor a <code>:::</code> operátort kell használni, ezzel nem exportált függvény is hívható.</p>
@@ -419,8 +419,8 @@ Kapcsolódás csomaghoz: 'actuar'</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  0.8077973 -0.7395581 -1.3033764  1.5051500 -1.5212452  0.8072057
- [7] -0.1743907  0.6295451  0.1042900  0.3781913</code></pre>
+<pre><code> [1] -0.6248290  0.9530297  0.2991932  2.1181887 -0.6204422 -0.2080349
+ [7]  0.3693208 -0.1248396 -1.0996194  0.1189947</code></pre>
 </div>
 </div>
 <p>Elképzelhető, hogy egy függvénynek egy argumentuma sincs, de a zárójelet ekkor is ki kell írni (azonnal becsukva, értelemszerűen). Ez fontos, ugyanis zárójel nélkül beírva a függvény nevét az R kiírja a függvény törzsét:</p>
@@ -429,7 +429,7 @@ Kapcsolódás csomaghoz: 'actuar'</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>function (n, mean = 0, sd = 1) 
 .Call(C_rnorm, n, mean, sd)
-&lt;bytecode: 0x000002d581364b30&gt;
+&lt;bytecode: 0x0000025923364b30&gt;
 &lt;environment: namespace:stats&gt;</code></pre>
 </div>
 </div>
@@ -463,16 +463,16 @@ NULL</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">70</span>, <span class="at">sd =</span> <span class="dv">15</span>)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 60.14018 58.53891 65.79888 95.67358 67.47220 68.61367 80.37803 77.35243
- [9] 85.48268 67.15689</code></pre>
+<pre><code> [1] 82.02891 55.89964 58.75064 82.82351 72.68280 77.54309 73.48581 66.30057
+ [9] 62.98812 75.96231</code></pre>
 </div>
 </div>
 <p>Mint látható, argumentumot úgy adunk meg a hívás során, hogy beírjuk a nevét, egyenlőségjelet teszünk<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a>, majd utána leírjuk az értékét. Ami fontos, hogy a nevek elhagyhatóak, ez esetben az R abban a sorrendben rendeli hozzá a beírt értékeket az argumentumokhoz, amilyen sorrendben a specifikációban szerepelnek<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a>. Vagyis a fenti hívás egyenértékű ezzel:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="dv">70</span>, <span class="dv">15</span>)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  54.42389  72.05972  76.68758  72.53190  68.67819  86.34203 103.00223
- [8]  72.14209  73.69577  76.64817</code></pre>
+<pre><code> [1] 64.38519 66.26024 89.13184 91.96071 63.76040 51.77304 59.99678 41.52101
+ [9] 55.42688 76.43314</code></pre>
 </div>
 </div>
 <p>Ezt voltaképp már korábban is láttuk: az <code>rnorm(10)</code> ezért működött minden név megadása nélkül is.</p>
@@ -480,16 +480,16 @@ NULL</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="at">sd =</span> <span class="dv">15</span>, <span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">70</span>)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 43.61151 55.22002 59.77514 62.53416 86.69338 46.77563 73.65187 83.89362
- [9] 68.23847 56.75238</code></pre>
+<pre><code> [1] 82.92850 81.10876 78.00124 62.13601 67.49862 86.87567 59.42639 48.15150
+ [9] 55.87867 63.88405</code></pre>
 </div>
 </div>
 <p>Vagy, hogy átugorjunk egy argumentumot:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">15</span>)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  -7.440627 -29.611329   1.659362  -2.727111  -7.168572  -8.868446
- [7]  -3.460286  -9.183961   2.449413   5.389557</code></pre>
+<pre><code> [1]  16.330527  -8.609327 -16.329497 -22.359779   9.120707   3.288724
+ [7] -23.418052 -17.562346 -16.983014  10.962407</code></pre>
 </div>
 </div>
 <p>Az R-es gyakorlat az, hogy az első néhány, mondjuk 3-4 argumentumtól eltekintve <em>akkor is</em> írjuk ki a neveket, ha egyébként sorrendben adtuk meg őket a hívás során. Ennek nem a kód futtathatóságához, hanem az olvashatóságához van köze: átlagos R-hez értő embertől elvárható, hogy – különösen a gyakran használt függvényeknél – az első néhány argumentumról tudja, hogy mi a jelentésük, de a továbbiakról már nem feltétlenül, így az olvasónak segítség, ha ezeknél feltüntetjük a nevet, még akkor is, ha az R-nek nem kellene, mert sorrendben jönnek. Ez azért van így, mert ezek általában beszélő nevek (ez az <code>rnorm</code> példáján is jól látszik!); ha majd mi magunk definiálunk függvényt, akkor is törekedjünk rá emiatt, hogy mi is ilyen beszélő neveket adjunk.</p>
@@ -499,8 +499,8 @@ NULL</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>fuggvenyargs <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">70</span>, <span class="at">sd =</span> <span class="dv">15</span>)</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">do.call</span>(rnorm, fuggvenyargs)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  78.59756 101.04023  35.82199  83.66425  46.90125  33.82341  87.76873
- [8]  72.74925  87.31580  61.37659</code></pre>
+<pre><code> [1]  38.08292  85.23265 107.25454  67.91768  61.24269  83.26699  50.03183
+ [8]  66.45365  65.38851  92.21459</code></pre>
 </div>
 </div>
 <p>A <code>do.call</code> tehát meghívja az első argumentumban megadott függvényt a második argumentumban megadott argumentumokkal. A <code>do.call</code> lényegében elválasztja egymástól a függvény nevét és argumentumait (ami az <code>rnorm(sd = 15, n = 10, mean = 70)</code> típusú hívásnál össze van gubancolódva); ezzel megoldást adva a fentiekben említett helyzetre is. Ha a függvény argumentumai között <code>...</code> van, a <code>do.call</code> akkor is működik, vagyis az átadott lista hossza nem kötelező, hogy mindig ugyanaz legyen.</p>
@@ -671,7 +671,7 @@ mean in group 0 mean in group 1
     cat("\n")
     invisible(x)
 }
-&lt;bytecode: 0x000002d58120a880&gt;
+&lt;bytecode: 0x0000025923202880&gt;
 &lt;environment: namespace:stats&gt;</code></pre>
 </div>
 </div>

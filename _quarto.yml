@@ -36,9 +36,9 @@ book:
   output-file: "ferenci-tamas-r-nyelv"
   chapters:
     - index.qmd
-    - rbevezetes.qmd
-    - adattipusokadatszerkezetek.qmd
-    - fuggvenyek.qmd
+    - r-szkript-rstudio.qmd
+    - adattipus-adatszerkezet.qmd
+    - fuggveny.qmd
     - programozas.qmd
     - datatable.qmd
 

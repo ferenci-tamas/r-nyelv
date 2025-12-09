@@ -67,7 +67,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./programozas.html" rel="next">
-<link href="./adattipusokadatszerkezetek.html" rel="prev">
+<link href="./adattipus-adatszerkezet.html" rel="prev">
 <link href="./Rlogo.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -161,7 +161,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./fuggvenyek.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Függvények</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./fuggveny.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Függvények</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Keresés" onclick="window.quartoOpenSearch();">
@@ -237,19 +237,19 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./rbevezetes.html" class="sidebar-item-text sidebar-link">
+  <a href="./r-szkript-rstudio.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R szkriptek és az RStudio</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./adattipusokadatszerkezetek.html" class="sidebar-item-text sidebar-link">
+  <a href="./adattipus-adatszerkezet.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Adattípusok, adatszerkezetek</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./fuggvenyek.html" class="sidebar-item-text sidebar-link active">
+  <a href="./fuggveny.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Függvények</span></span></a>
   </div>
 </li>
@@ -281,7 +281,7 @@ window.Quarto = {
   <li><a href="#függvények-specifikációja-és-meghívása" id="toc-függvények-specifikációja-és-meghívása" class="nav-link" data-scroll-target="#függvények-specifikációja-és-meghívása"><span class="header-section-number">3.4</span> Függvények specifikációja és meghívása</a></li>
   <li><a href="#az-r-ben-minden-utasítás-függvényhívás" id="toc-az-r-ben-minden-utasítás-függvényhívás" class="nav-link" data-scroll-target="#az-r-ben-minden-utasítás-függvényhívás"><span class="header-section-number">3.5</span> Az R-ben minden utasítás függvényhívás</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/ferenci-tamas/r-nyelv/edit/main/fuggvenyek.qmd" class="toc-action"><i class="bi bi-github"></i>Az oldal szerkesztése</a></li><li><a href="https://github.com/ferenci-tamas/r-nyelv/blob/main/fuggvenyek.qmd" class="toc-action"><i class="bi empty"></i>Forráskód megtekintése</a></li><li><a href="https://github.com/ferenci-tamas/r-nyelv/issues/new" class="toc-action"><i class="bi empty"></i>Észrevétel jelzése</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/ferenci-tamas/r-nyelv/edit/main/fuggveny.qmd" class="toc-action"><i class="bi bi-github"></i>Az oldal szerkesztése</a></li><li><a href="https://github.com/ferenci-tamas/r-nyelv/blob/main/fuggveny.qmd" class="toc-action"><i class="bi empty"></i>Forráskód megtekintése</a></li><li><a href="https://github.com/ferenci-tamas/r-nyelv/issues/new" class="toc-action"><i class="bi empty"></i>Észrevétel jelzése</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -310,15 +310,15 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  0.04587708  0.92206162  1.20915522 -0.19966914  1.78595658  0.73172679
- [7]  0.05494550  0.23541298 -0.37900158 -0.19907117</code></pre>
+<pre><code> [1] -0.22291959 -0.40041491  0.97724428  1.03471105  1.24377954  0.21919491
+ [7]  1.05078334 -0.43035661  0.07916554 -1.50426626</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>osszeg <span class="ot">&lt;-</span> <span class="fu">sum</span>(x)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>atlag <span class="ot">&lt;-</span> osszeg<span class="sc">/</span>n</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>((x <span class="sc">-</span> atlag)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>(n <span class="sc">-</span> <span class="dv">1</span>)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.5056428</code></pre>
+<pre><code>[1] 0.7744601</code></pre>
 </div>
 </div>
 <p>Valószínűleg sokan felismerik, hogy ezzel az <code>x</code>-ben lévő elemek varianciáját számoltuk ki. Erre ezerszer szükség lehet egy statisztikai elemzésben: egyszer kiszámolhatjuk a testtömegek varianciáját, aztán a testmagasságokét, kellhet varianciát számolni, ha valamilyen regressziót futtatunk, ha főkomponens-elemzést hajtunk végre, egyszóval milliónyi feladatnál, akár ugyanazon szkripten belül is, pláne a különböző szkriptekben.</p>
@@ -350,7 +350,7 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">10</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">variancia</span>(x)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 1.926406</code></pre>
+<pre><code>[1] 1.267161</code></pre>
 </div>
 </div>
 <p>(Természetesen erre a célra van beépített – és a fentinél sokkal gyorsabb – függvény, a neve <code>var</code>, de ez most csak az illusztráció célját szolgálta.)</p>
@@ -376,8 +376,8 @@ window.Quarto = {
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>actuar<span class="sc">::</span><span class="fu">rinvexp</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]   0.3151217   1.7574529   6.1622106   0.3090249   0.4766505  25.4343768
- [7]   5.9033909 103.4023137   1.1096171   1.4000931</code></pre>
+<pre><code> [1]   1.3616467   0.4874451   1.8273209   4.4656203   9.6110637   1.4427711
+ [7]   0.7647062 467.3620070   1.2795140   0.5654636</code></pre>
 </div>
 </div>
 <p>Magyarra lefordítva az <code>actuar::rinvexp</code> praktikusan azt jelenti, hogy „az <code>actuar</code> csomag <code>rinvexp</code> nevű függvénye”.</p>
@@ -403,8 +403,8 @@ Kapcsolódás csomaghoz: 'actuar'</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rinvexp</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  5.0463683  2.2626320  1.5480971  0.4312359  0.6933167  0.5924609
- [7]  3.6901950  3.3445631 13.0923177  3.7194608</code></pre>
+<pre><code> [1]  9.5486319  0.7522395  0.3999689 20.9129580  0.8711264  2.4476082
+ [7]  1.5340655  2.3816690  0.7976538  3.2400091</code></pre>
 </div>
 </div>
 <p>Egy apró megjegyzés a teljes precizitás kedvéért. A négyespont operátor csak azokat a függvényeket teszi elérhetővé, amik ún. exportált függvényei a csomagnak. Az exportálás lényegében azt jelenti, hogy elérhetővé akarjuk-e tenni az adott csomagbeli függvényt. Ez elsőre meglepő lehet (miért raknánk egy függvényt egy csomagba, ha nem akarjuk elérhetővé tenni?!), de elképzelhetőek helyzetek, ahol ennek van értelme, például, mert csak egy belső célokat szolgáló segédfüggvényről van szó – az ilyeneknek lehet szerepe, a felhasználó számára is, mert <em>más</em> csomagbeli függvények meghívhatják, csak közvetlenül nem lehet őket kívülről meghívni. Ha valami oknál fogva mégis ezt szeretnénk, akkor a <code>:::</code> operátort kell használni, ezzel nem exportált függvény is hívható.</p>
@@ -417,8 +417,8 @@ Kapcsolódás csomaghoz: 'actuar'</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  0.0232368  2.0779246 -0.0516573  0.5953512  0.2480488  1.1815376
- [7] -1.3481182 -0.8022726  1.4721948 -0.1316156</code></pre>
+<pre><code> [1]  1.33232238 -2.57472092 -1.13083374  1.00495752  1.18814000  0.04417097
+ [7]  0.54119496 -1.11715297 -1.21138763 -0.70946144</code></pre>
 </div>
 </div>
 <p>Elképzelhető, hogy egy függvénynek egy argumentuma sincs, de a zárójelet ekkor is ki kell írni (azonnal becsukva, értelemszerűen). Ez fontos, ugyanis zárójel nélkül beírva a függvény nevét az R kiírja a függvény törzsét:</p>
@@ -427,7 +427,7 @@ Kapcsolódás csomaghoz: 'actuar'</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>function (n, mean = 0, sd = 1) 
 .Call(C_rnorm, n, mean, sd)
-&lt;bytecode: 0x0000023f5315b740&gt;
+&lt;bytecode: 0x000002751610a740&gt;
 &lt;environment: namespace:stats&gt;</code></pre>
 </div>
 </div>
@@ -461,16 +461,16 @@ NULL</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">70</span>, <span class="at">sd =</span> <span class="dv">15</span>)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 68.13711 75.92000 96.18366 46.05941 45.54008 61.61230 83.40452 88.20781
- [9] 68.97286 59.62926</code></pre>
+<pre><code> [1] 75.39508 71.44060 46.65474 72.24832 78.13874 80.80678 57.98036 49.57586
+ [9] 73.03990 62.45734</code></pre>
 </div>
 </div>
 <p>Mint látható, argumentumot úgy adunk meg a hívás során, hogy beírjuk a nevét, egyenlőségjelet teszünk<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a>, majd utána leírjuk az értékét. Ami fontos, hogy a nevek elhagyhatóak, ez esetben az R abban a sorrendben rendeli hozzá a beírt értékeket az argumentumokhoz, amilyen sorrendben a specifikációban szerepelnek<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a>. Vagyis a fenti hívás egyenértékű ezzel:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="dv">70</span>, <span class="dv">15</span>)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 38.44464 68.56666 76.55156 59.32751 48.61701 74.57890 69.82418 78.44386
- [9] 65.62742 65.40460</code></pre>
+<pre><code> [1]  73.97087  53.34871  74.33411  63.68868  71.94125 107.12489  85.15238
+ [8] 100.72243  37.77322  65.81917</code></pre>
 </div>
 </div>
 <p>Ezt voltaképp már korábban is láttuk: az <code>rnorm(10)</code> ezért működött minden név megadása nélkül is.</p>
@@ -478,16 +478,16 @@ NULL</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="at">sd =</span> <span class="dv">15</span>, <span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">70</span>)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 64.79649 58.05580 96.08509 65.73556 71.87194 59.95643 61.24926 77.57878
- [9] 74.27829 71.14763</code></pre>
+<pre><code> [1]  89.04184  67.90660  51.52308 106.16366  62.92306  69.42696  85.67920
+ [8]  78.50228  58.13093  85.14523</code></pre>
 </div>
 </div>
 <p>Vagy, hogy átugorjunk egy argumentumot:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">15</span>)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]   9.985910 -20.292504  11.006844  -4.257036  24.288872   8.189869
- [7] -13.176268  13.248185 -21.511131  -6.349283</code></pre>
+<pre><code> [1]  -1.301947  29.952710   7.756653  18.871666 -15.778473  -2.734955
+ [7]  -3.439329  15.882659 -30.719120  18.992477</code></pre>
 </div>
 </div>
 <p>Az R-es gyakorlat az, hogy az első néhány, mondjuk 3-4 argumentumtól eltekintve <em>akkor is</em> írjuk ki a neveket, ha egyébként sorrendben adtuk meg őket a hívás során. Ennek nem a kód futtathatóságához, hanem az olvashatóságához van köze: átlagos R-hez értő embertől elvárható, hogy – különösen a gyakran használt függvényeknél – az első néhány argumentumról tudja, hogy mi a jelentésük, de a továbbiakról már nem feltétlenül, így az olvasónak segítség, ha ezeknél feltüntetjük a nevet, még akkor is, ha az R-nek nem kellene, mert sorrendben jönnek. Ez azért van így, mert ezek általában beszélő nevek (ez az <code>rnorm</code> példáján is jól látszik!); ha majd mi magunk definiálunk függvényt, akkor is törekedjünk rá emiatt, hogy mi is ilyen beszélő neveket adjunk.</p>
@@ -497,8 +497,8 @@ NULL</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>fuggvenyargs <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">70</span>, <span class="at">sd =</span> <span class="dv">15</span>)</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">do.call</span>(rnorm, fuggvenyargs)</span></code></pre></div><button title="Vágólapra másolás" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 57.31929 86.28564 67.13167 70.94014 99.78883 61.20822 64.11767 62.48412
- [9] 60.77365 61.45548</code></pre>
+<pre><code> [1] 80.16769 63.34756 81.74616 55.80863 91.77192 76.89795 72.42340 83.53488
+ [9] 80.00248 77.81828</code></pre>
 </div>
 </div>
 <p>A <code>do.call</code> tehát meghívja az első argumentumban megadott függvényt a második argumentumban megadott argumentumokkal. A <code>do.call</code> lényegében elválasztja egymástól a függvény nevét és argumentumait (ami az <code>rnorm(sd = 15, n = 10, mean = 70)</code> típusú hívásnál össze van gubancolódva); ezzel megoldást adva a fentiekben említett helyzetre is. Ha a függvény argumentumai között <code>...</code> van, a <code>do.call</code> akkor is működik, vagyis az átadott lista hossza nem kötelező, hogy mindig ugyanaz legyen.</p>
@@ -669,7 +669,7 @@ mean in group 0 mean in group 1
     cat("\n")
     invisible(x)
 }
-&lt;bytecode: 0x0000023f53054850&gt;
+&lt;bytecode: 0x0000027516019850&gt;
 &lt;environment: namespace:stats&gt;</code></pre>
 </div>
 </div>
@@ -1148,7 +1148,7 @@ attr(,"class")
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./adattipusokadatszerkezetek.html" class="pagination-link" aria-label="Adattípusok, adatszerkezetek">
+      <a href="./adattipus-adatszerkezet.html" class="pagination-link" aria-label="Adattípusok, adatszerkezetek">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Adattípusok, adatszerkezetek</span></span>
       </a>          
   </div>
@@ -1159,7 +1159,7 @@ attr(,"class")
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ferenci-tamas/r-nyelv/edit/main/fuggvenyek.qmd" class="toc-action"><i class="bi bi-github"></i>Az oldal szerkesztése</a></li><li><a href="https://github.com/ferenci-tamas/r-nyelv/blob/main/fuggvenyek.qmd" class="toc-action"><i class="bi empty"></i>Forráskód megtekintése</a></li><li><a href="https://github.com/ferenci-tamas/r-nyelv/issues/new" class="toc-action"><i class="bi empty"></i>Észrevétel jelzése</a></li></ul></div></div></div></footer><script type="text/javascript">
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/ferenci-tamas/r-nyelv/edit/main/fuggveny.qmd" class="toc-action"><i class="bi bi-github"></i>Az oldal szerkesztése</a></li><li><a href="https://github.com/ferenci-tamas/r-nyelv/blob/main/fuggveny.qmd" class="toc-action"><i class="bi empty"></i>Forráskód megtekintése</a></li><li><a href="https://github.com/ferenci-tamas/r-nyelv/issues/new" class="toc-action"><i class="bi empty"></i>Észrevétel jelzése</a></li></ul></div></div></div></footer><script type="text/javascript">
 var sc_project=12422840; 
 var sc_invisible=1; 
 var sc_security="d32cce24"; 

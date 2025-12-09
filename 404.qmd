@@ -1,0 +1,7 @@
+---
+title: Oldal nem található
+---
+
+A keresett oldal nem található (lehet, hogy hibás vagy megváltozott a link).
+
+A jegyzet kezdőoldala: [https://ferenci-tamas.github.io/r-nyelv/](https://ferenci-tamas.github.io/r-nyelv/).

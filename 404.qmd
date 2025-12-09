@@ -1,5 +1,5 @@
 ---
-title: Oldal nem található
+title: Az oldal nem található
 ---
 
 A keresett oldal nem található (lehet, hogy hibás vagy megváltozott a link).
